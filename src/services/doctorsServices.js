@@ -7,16 +7,23 @@ import specialitiesRepositories from "../repositories/specialitiesRepositories.j
 
 import errors from "../errors/index.js";
 
+async function selectAll({ name, specialityName }) {
+
+    const { rows: [doctors] } = await doctorsRepositories.selectAll({ name, specialityName });
+
+    return doctors;
+}
+
 async function signIn({ email, password, type }) {
 
     const { rowCount: doctorExists, rows: [doctor] } = await loginsRepositories.selectByEmail(email);
     if (!doctorExists || (type !== doctor.type)) throw new errors.unauthorizedError();
 
     const passwordIsCorrect = bcrypt.compareSync(password, doctor.password);
-    if(!passwordIsCorrect) throw new errors.unauthorizedError();
+    if (!passwordIsCorrect) throw new errors.unauthorizedError();
 
     const token = jwt.sign({ userId: doctor.id, type }, process.env.JWT_PRIVATE_KEY, { expiresIn: 86400 });
-    
+
     return token;
 }
 
@@ -48,6 +55,7 @@ async function signUp({ name, email, password, type, specialityName, crm, crmOpt
 }
 
 export default {
+    selectAll,
     signIn,
     signUp
 }

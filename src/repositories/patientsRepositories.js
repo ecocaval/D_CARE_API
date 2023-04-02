@@ -1,5 +1,13 @@
 import dataBase from "../configs/dataBase.js";
 
+async function selectByLoginId(id) {
+    return await dataBase.query(`
+        SELECT * 
+        FROM patients
+        WHERE "loginId" = $1; 
+    `, [id]);
+}
+
 async function selectByCpf(cpf) {
     return await dataBase.query(`
         SELECT * 
@@ -16,6 +24,7 @@ async function create({ cpf, loginId }) {
 }
 
 export default {
+    selectByLoginId,
     selectByCpf,
     create
 }
