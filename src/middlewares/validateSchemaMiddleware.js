@@ -1,12 +1,14 @@
 import err from "../errors/index.js";
 
-export function validateSchemaMiddleware(schema) {
-    return (req, _, next) => {
+function validateSchemaMiddleware(schema) {
+    return (req, res, next) => {
         const { error } = schema.validate(req.body, { abortEarly: false });
         if (error) {
             const errors = error.details.map((detail) => detail.message);
-            throw err.conflictError(errors);
+            throw err.unprocessableEntityError(errors.join(', '));
         }
         next();
     };
 }
+
+export default validateSchemaMiddleware;

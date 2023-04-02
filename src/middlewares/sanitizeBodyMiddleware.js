@@ -2,7 +2,7 @@ import { stripHtml } from 'string-strip-html';
 
 function sanitizeBodyMiddleware(req, res, next) {
     if(req.body) {
-        req.body = (cleanObj(req.body));
+        cleanObj(req.body)
     }
     next();
 }

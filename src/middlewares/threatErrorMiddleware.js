@@ -1,7 +1,6 @@
 import httpStatus from 'http-status';
 
-function threatErrorMiddleware(err, _, res) {
-
+function threatErrorMiddleware(err, req, res, next) {
     if (err?.name === 'unauthorizedError' || err?.name === 'invalidLoginError') {
         return res.status(httpStatus.UNAUTHORIZED).send(err?.message);
     }

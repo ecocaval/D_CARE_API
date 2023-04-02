@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import errors from "../errors/index.js";
 
-export async function validateTokenMiddleware(req, res, next) {
+async function validateTokenMiddleware(req, res, next) {
 
     const { authorization } = req.headers;
     const [bearer, token] = authorization.split(' ');
@@ -25,3 +25,5 @@ export async function validateTokenMiddleware(req, res, next) {
         next(error);
     }
 }
+
+export default validateTokenMiddleware;
