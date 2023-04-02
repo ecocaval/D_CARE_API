@@ -22,7 +22,8 @@ const signUp = joi.object({
 
 const signIn = joi.object({
     email: joi.string().email().required(),
-    password: joi.string().required()
+    password: joi.string().required(),
+    type: joi.string().valid('doctor', 'patient').required(),
 });
 
 export default { signUp, signIn }

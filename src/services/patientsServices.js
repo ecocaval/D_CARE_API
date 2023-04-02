@@ -1,9 +1,23 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import loginsRepositories from "../repositories/loginsRepositories.js";
 import patientsRepositories from "../repositories/patientsRepositories.js";
 
 import errors from "../errors/index.js";
+
+async function signIn({ email, password, type }) {
+    
+    const { rowCount: patientExists, rows: [patient] } = await loginsRepositories.selectByEmail(email);
+    if (!patientExists || (type !== patient.type)) throw new errors.unauthorizedError();
+
+    const passwordIsCorrect = bcrypt.compareSync(password, patient.password);
+    if(!passwordIsCorrect) throw new errors.unauthorizedError();
+
+    const token = jwt.sign({ userId: patient.id, type }, process.env.JWT_PRIVATE_KEY, { expiresIn: 86400 });
+
+    return token;
+}
 
 async function signUp({ name, email, password, type, cpf }) {
 
@@ -25,5 +39,6 @@ async function signUp({ name, email, password, type, cpf }) {
 }
 
 export default {
+    signIn,
     signUp
 }
