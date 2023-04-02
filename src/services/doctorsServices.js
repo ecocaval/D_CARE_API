@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 import loginsRepositories from "../repositories/loginsRepositories.js";
 import doctorsRepositories from "../repositories/doctorsRepositories.js";
 import specialitiesRepositories from "../repositories/specialitiesRepositories.js";
@@ -13,7 +15,7 @@ async function signUp({ name, email, password, type, specialityName, crm, crmOpt
     if (!!crmInUse) throw new errors.duplicatedCrmError();
 
     const { rows: [{ id: loginId }] } = await loginsRepositories.create({
-        name, email, password, type
+        name, email, password: bcrypt.hashSync(password, 10), type
     });
 
     const { rowCount: specialityExists } = await specialitiesRepositories.selectByName(specialityName);
