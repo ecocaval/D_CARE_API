@@ -7,10 +7,10 @@ import errors from "../errors/index.js";
 async function signUp({ name, email, password, type, specialityName, crm, crmOptionals }) {
 
     const { rowCount: emailInUse } = await loginsRepositories.selectByEmail(email);
-    if (!!emailInUse) throw new errors.conflictError();
+    if (!!emailInUse) throw new errors.duplicatedEmailError();
 
     const { rowCount: crmInUse } = await doctorsRepositories.selectByCrm(crm);
-    if (!!crmInUse) throw new errors.conflictError();
+    if (!!crmInUse) throw new errors.duplicatedCrmError();
 
     const { rows: [{ id: loginId }] } = await loginsRepositories.create({
         name, email, password, type

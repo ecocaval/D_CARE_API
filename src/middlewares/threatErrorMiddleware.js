@@ -5,7 +5,7 @@ function threatErrorMiddleware(err, req, res, next) {
         return res.status(httpStatus.UNAUTHORIZED).send(err?.message);
     }
 
-    if (err?.name === 'conflictError') {
+    if (['conflictError', 'duplicatedEmailError', 'duplicatedCrmError', 'duplicatedCpfError'].includes(err?.name)) {
         return res.status(httpStatus.CONFLICT).send(err?.message);
     }
 

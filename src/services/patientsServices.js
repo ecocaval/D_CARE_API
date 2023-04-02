@@ -6,10 +6,10 @@ import errors from "../errors/index.js";
 async function signUp({ name, email, password, type, cpf }) {
 
     const { rowCount: emailInUse } = await loginsRepositories.selectByEmail(email);
-    if (!!emailInUse) throw new errors.conflictError();
+    if (!!emailInUse) throw new errors.duplicatedEmailError();
 
     const { rowCount: cpfInUse } = await patientsRepositories.selectByCpf(cpf);
-    if (!!cpfInUse) throw new errors.conflictError();
+    if (!!cpfInUse) throw new errors.duplicatedCpfError();
 
     const { rows: [{ id: loginId }] } = await loginsRepositories.create({
         name, email, password, type

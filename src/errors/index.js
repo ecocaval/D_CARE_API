@@ -19,6 +19,27 @@ function conflictError() {
     }
 }
 
+function duplicatedEmailError() {
+    return {
+        name: 'duplicatedEmailError',
+        message: 'This email is already in use'
+    }
+}
+
+function duplicatedCrmError() {
+    return {
+        name: 'duplicatedCrmError',
+        message: 'This crm is already in use'
+    }
+}
+
+function duplicatedCpfError() {
+    return {
+        name: 'duplicatedCpfError',
+        message: 'This cpf is already in use'
+    }
+}
+
 function invalidLoginError() {
     return {
         name: 'invalidLoginError',
@@ -37,6 +58,9 @@ export default {
     unauthorizedError,
     notFoundError,
     conflictError,
+    duplicatedEmailError,
+    duplicatedCrmError,
+    duplicatedCpfError,
     invalidLoginError,
     unprocessableEntityError
 }
