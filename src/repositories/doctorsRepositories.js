@@ -10,7 +10,8 @@ async function selectAll({ name, specialityName }) {
             ON d."loginId" = l.id
         WHERE 
             (l.name = $1 OR $1 IS NULL) AND 
-            (d."specialityName" = $2 OR $2 IS NULL);
+            (d."specialityName" = $2 OR $2 IS NULL)
+        ORDER BY d.id DESC;
     `, [name, specialityName]);
 }
 

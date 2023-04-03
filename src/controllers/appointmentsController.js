@@ -2,6 +2,20 @@ import httpStatus from "http-status";
 
 import appointmentsServices from "../services/appointmentsServices.js";
 
+async function selectAll(req, res, next) {
+    try {
+        const { doctorName, date, hour, status } = req.query
+
+        const appointments = await appointmentsServices.selectAll({ doctorName, date, hour, status })
+
+        return res.status(httpStatus.OK).json({
+            data: appointments
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function create(req, res, next) {
     try {
         const { date, hour } = req.body;
@@ -16,5 +30,6 @@ async function create(req, res, next) {
 }
 
 export default {
+    selectAll,
     create
 }

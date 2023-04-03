@@ -9,6 +9,14 @@ import appointmentsSchemas from "../schemas/appointmentsSchemas.js";
 
 const appointmentsRoutes = Router();
 
+appointmentsRoutes.get(
+    '/',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'patient')
+    },
+    appointmentsController.selectAll
+);
+
 appointmentsRoutes.post(
     '/',
     (req, res, next) => {
