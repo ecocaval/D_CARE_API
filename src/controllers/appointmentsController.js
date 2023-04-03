@@ -3,9 +3,8 @@ import httpStatus from "http-status";
 import appointmentsServices from "../services/appointmentsServices.js";
 
 async function selectAll(req, res, next) {
+    const { doctorName, date, hour, status, specialityName } = req.query
     try {
-        const { doctorName, date, hour, status, specialityName } = req.query
-
         const appointments = await appointmentsServices.selectAll({ doctorName, date, hour, status, specialityName })
 
         return res.status(httpStatus.OK).json({
@@ -17,10 +16,9 @@ async function selectAll(req, res, next) {
 }
 
 async function selectPatientAppointments(req, res, next) {
+    const { id: patientId } = res?.locals?.user
+    const { status } = req.query
     try {
-        const { id: patientId } = res?.locals?.user
-        const { status } = req.query
-
         const appointments = await appointmentsServices.selectPatientAppointments({ patientId, status })
 
         return res.status(httpStatus.OK).json({
@@ -32,10 +30,9 @@ async function selectPatientAppointments(req, res, next) {
 }
 
 async function selectDoctorAppointments(req, res, next) {
+    const { id: doctorId } = res?.locals?.user
+    const { status } = req.query
     try {
-        const { id: doctorId } = res?.locals?.user
-        const { status } = req.query
-
         const appointments = await appointmentsServices.selectDoctorAppointments({ doctorId, status })
 
         return res.status(httpStatus.OK).json({
@@ -47,10 +44,9 @@ async function selectDoctorAppointments(req, res, next) {
 }
 
 async function create(req, res, next) {
+    const { date, hour } = req.body;
+    const { id: doctorId } = res?.locals?.user
     try {
-        const { date, hour } = req.body;
-        const { id: doctorId } = res?.locals?.user
-
         await appointmentsServices.create({ date, hour, doctorId })
 
         return res.sendStatus(httpStatus.CREATED);
@@ -60,10 +56,9 @@ async function create(req, res, next) {
 }
 
 async function book(req, res, next) {
+    const { id: patientId } = res?.locals?.user
+    const { appointmentId } = req?.params
     try {
-        const { id: patientId } = res?.locals?.user
-        const { appointmentId } = req?.params
-
         await appointmentsServices.book({ patientId, appointmentId })
 
         return res.sendStatus(httpStatus.OK);
@@ -73,10 +68,9 @@ async function book(req, res, next) {
 }
 
 async function confirm(req, res, next) {
+    const { appointmentId } = req?.params
+    const { id: doctorId } = res?.locals?.user
     try {
-        const { appointmentId } = req?.params
-        const { id: doctorId } = res?.locals?.user
-
         await appointmentsServices.confirm({ appointmentId, doctorId })
 
         return res.sendStatus(httpStatus.OK);
@@ -86,10 +80,9 @@ async function confirm(req, res, next) {
 }
 
 async function cancel(req, res, next) {
+    const { appointmentId } = req?.params
+    const { id: doctorId } = res?.locals?.user
     try {
-        const { appointmentId } = req?.params
-        const { id: doctorId } = res?.locals?.user
-
         await appointmentsServices.cancel({ appointmentId, doctorId })
 
         return res.sendStatus(httpStatus.OK);

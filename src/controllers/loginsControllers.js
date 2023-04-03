@@ -4,11 +4,9 @@ import doctorsServices from "../services/doctorsServices.js";
 import patientsServices from "../services/patientsServices.js";
 
 async function signIn(req, res, next) {
+    const { email, password, type } = req.body;
+    let token;
     try {
-        const { email, password, type } = req.body;
-
-        let token;
-
         if (type === 'doctor') {
             token = await doctorsServices.signIn({
                 email, password, type
@@ -28,9 +26,8 @@ async function signIn(req, res, next) {
 }
 
 async function signUp(req, res, next) {
+    const { name, email, password, type, specialityName, crm, crmOptionals, cpf } = req.body;
     try {
-        const { name, email, password, type, specialityName, crm, crmOptionals, cpf } = req.body;
-
         if (type === 'doctor')
             await doctorsServices.signUp({
                 name, email, password, type, specialityName, crm, crmOptionals
