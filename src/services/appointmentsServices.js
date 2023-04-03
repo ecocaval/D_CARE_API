@@ -9,9 +9,9 @@ async function selectAll({ doctorName, date, hour, status, specialityName }) {
     return appointments
 }
 
-async function selectMyAppointments({ patientId, status }) {
+async function selectPatientAppointments({ patientId, status }) {
 
-    const { rows: appointments } = await appointmentsRepositories.selectMyAppointments({ patientId, status })
+    const { rows: appointments } = await appointmentsRepositories.selectPatientAppointments({ patientId, status })
 
     return appointments
 }
@@ -35,7 +35,7 @@ async function book({ patientId, appointmentId }) {
 
 export default {
     selectAll,
-    selectMyAppointments,
+    selectPatientAppointments,
     create,
     book
 }

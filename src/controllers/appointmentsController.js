@@ -16,12 +16,12 @@ async function selectAll(req, res, next) {
     }
 }
 
-async function selectMyAppointments(req, res, next) {
+async function selectPatientAppointments(req, res, next) {
     try {
         const { id: patientId } = res?.locals?.user
         const { status } = req.query
 
-        const appointments = await appointmentsServices.selectMyAppointments({ patientId, status })
+        const appointments = await appointmentsServices.selectPatientAppointments({ patientId, status })
 
         return res.status(httpStatus.OK).json({
             data: appointments
@@ -59,7 +59,7 @@ async function book(req, res, next) {
 
 export default {
     selectAll,
-    selectMyAppointments,
+    selectPatientAppointments,
     create,
     book
 }

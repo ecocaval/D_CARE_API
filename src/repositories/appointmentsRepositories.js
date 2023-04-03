@@ -22,7 +22,7 @@ async function selectAll({ doctorName, date, hour, status, specialityName }) {
     `, [doctorName, date, hour, status, specialityName]);
 }
 
-async function selectMyAppointments({ patientId, status }) {
+async function selectPatientAppointments({ patientId, status }) {
     return await dataBase.query(`
         SELECT 
             a.*,    
@@ -73,7 +73,7 @@ async function book({ patientId, appointmentId }) {
 
 export default {
     selectAll,
-    selectMyAppointments,
+    selectPatientAppointments,
     select,
     selectById,
     create,
