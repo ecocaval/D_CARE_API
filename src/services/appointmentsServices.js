@@ -2,9 +2,9 @@ import appointmentsRepositories from '../repositories/appointmentsRepositories.j
 
 import errors from '../errors/index.js';
 
-async function selectAll({ doctorName, date, hour, status }) {
+async function selectAll({ doctorName, date, hour, status, specialityName }) {
 
-    const { rows: appointments } = await appointmentsRepositories.selectAll({ doctorName, date, hour, status })
+    const { rows: appointments } = await appointmentsRepositories.selectAll({ doctorName, date, hour, status, specialityName })
 
     return appointments
 }

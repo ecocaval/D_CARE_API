@@ -1,15 +1,16 @@
 import dataBase from "../configs/dataBase.js";
 
-async function selectAll({ doctorName, date, hour, status }) {
+async function selectAll({ doctorName, date, hour, status, specialityName }) {
     return await dataBase.query(`
         SELECT 
-            a.*,    
+            a.date, a.hour, a.status,    
             ( 
                 SELECT name as "patientName"
                 FROM patients
                 WHERE id = a."patientId"
             ),
-            l.name as "doctorName"
+            l.name as "doctorName",
+            d."specialityName" as speciality
         FROM appointments a
         JOIN doctors d
             ON a."doctorId" = d.id
@@ -19,9 +20,10 @@ async function selectAll({ doctorName, date, hour, status }) {
             (l.name = $1 OR $1 IS NULL) AND 
             (a.date = $2 OR $2 IS NULL) AND
             (a.hour = $3 OR $3 IS NULL) AND
-            (a.status = $4 OR $4 IS NULL)
+            (a.status = $4 OR $4 IS NULL) AND
+            (d."specialityName" = $5 OR $5 IS NULL)
         ORDER BY a.id DESC;
-    `, [doctorName, date, hour, status]);
+    `, [doctorName, date, hour, status, specialityName]);
 }
 
 async function select({ date, hour, doctorId }) {

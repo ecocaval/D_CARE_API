@@ -4,9 +4,9 @@ import appointmentsServices from "../services/appointmentsServices.js";
 
 async function selectAll(req, res, next) {
     try {
-        const { doctorName, date, hour, status } = req.query
+        const { doctorName, date, hour, status, specialityName } = req.query
 
-        const appointments = await appointmentsServices.selectAll({ doctorName, date, hour, status })
+        const appointments = await appointmentsServices.selectAll({ doctorName, date, hour, status, specialityName })
 
         return res.status(httpStatus.OK).json({
             data: appointments
