@@ -62,7 +62,7 @@ async function select({ date, hour, doctorId }) {
     return await dataBase.query(`
         SELECT *
         FROM appointments 
-        WHERE date = $1 AND hour = $2 AND "doctorId" = $3;
+        WHERE date = $1 AND hour = $2 AND "doctorId" = $3 AND status <> 'canceled';
     `, [date, hour, doctorId]);
 }
 
