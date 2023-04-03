@@ -7,7 +7,8 @@ function threatErrorMiddleware(err, req, res, next) {
         'duplicatedEmailError',
         'duplicatedCrmError',
         'duplicatedCpfError',
-        'duplicatedAppointmentError'
+        'duplicatedAppointmentError',
+        'bookedAppointmentError'
     ];
 
     if (err?.name === 'unauthorizedError' || err?.name === 'invalidLoginError') {
@@ -22,7 +23,7 @@ function threatErrorMiddleware(err, req, res, next) {
         return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(err?.message);
     }
 
-    if (err?.name === 'notFoundError') {
+    if (err?.name === 'notFoundError' || err?.name === 'appointmentNotFoundError') {
         return res.status(httpStatus.NOT_FOUND).send(err?.message);
     }
 

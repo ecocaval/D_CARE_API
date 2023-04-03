@@ -26,4 +26,12 @@ appointmentsRoutes.post(
     appointmentsController.create
 );
 
+appointmentsRoutes.put(
+    '/:appointmentId/book',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'patient')
+    },
+    appointmentsController.book
+);
+
 export default appointmentsRoutes;

@@ -5,6 +5,14 @@ function unauthorizedError() {
     }
 }
 
+function appointmentNotFoundError() {
+    return {
+        name: "appointmentNotFoundError",
+        message: "This appointment does not exist",
+    };
+}
+
+
 function notFoundError() {
     return {
         name: "notFoundError",
@@ -16,6 +24,13 @@ function conflictError() {
     return {
         name: 'conflictError',
         message: 'This credentials are already in use'
+    }
+}
+
+function bookedAppointmentError() {
+    return {
+        name: 'bookedAppointmentError',
+        message: 'This appointment is already booked'
     }
 }
 
@@ -63,8 +78,10 @@ function unprocessableEntityError(message) {
 
 export default {
     unauthorizedError,
+    appointmentNotFoundError,
     notFoundError,
     conflictError,
+    bookedAppointmentError,
     duplicatedAppointmentError,
     duplicatedEmailError,
     duplicatedCrmError,

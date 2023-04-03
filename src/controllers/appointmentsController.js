@@ -29,7 +29,21 @@ async function create(req, res, next) {
     }
 }
 
+async function book(req, res, next) {
+    try {
+        const { id: patientId } = res?.locals?.user
+        const { appointmentId } = req?.params
+
+        await appointmentsServices.book({ patientId, appointmentId })
+
+        return res.sendStatus(httpStatus.OK);
+    } catch (error) {
+        next(error);
+    }
+}
+
 export default {
     selectAll,
-    create
+    create,
+    book
 }

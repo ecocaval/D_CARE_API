@@ -17,7 +17,17 @@ async function create({ date, hour, doctorId }) {
     await appointmentsRepositories.create({ date, hour, doctorId })
 }
 
+async function book({ patientId, appointmentId }) {
+
+    const { rows: [appointment], rowCount } = await appointmentsRepositories.selectById(appointmentId)
+    if(!rowCount) throw new errors.appointmentNotFoundError();
+    if (!!appointment.patientId) throw new errors.bookedAppointmentError();
+
+    await appointmentsRepositories.book({ patientId, appointmentId })
+}
+
 export default {
     selectAll,
-    create
+    create,
+    book
 }

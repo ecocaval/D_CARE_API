@@ -3,7 +3,7 @@ import dataBase from "../configs/dataBase.js";
 async function selectAll({ doctorName, date, hour, status, specialityName }) {
     return await dataBase.query(`
         SELECT 
-            a.date, a.hour, a.status,    
+            a.*,    
             ( 
                 SELECT name as "patientName"
                 FROM patients
@@ -34,6 +34,14 @@ async function select({ date, hour, doctorId }) {
     `, [date, hour, doctorId]);
 }
 
+async function selectById(appointmentId) {
+    return await dataBase.query(`
+        SELECT *
+        FROM appointments 
+        WHERE id = $1;
+    `, [appointmentId]);
+}
+
 async function create({ date, hour, doctorId }) {
     return await dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
@@ -41,8 +49,18 @@ async function create({ date, hour, doctorId }) {
     `, [date, hour, doctorId]);
 }
 
+async function book({ patientId, appointmentId }) {
+    return await dataBase.query(`
+        UPDATE appointments
+        SET "patientId" = $1, status = 'booked'
+        WHERE id = $2;
+`, [patientId, appointmentId]);
+}
+
 export default {
     selectAll,
     select,
-    create
+    selectById,
+    create,
+    book
 }
