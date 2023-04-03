@@ -8,7 +8,7 @@ import errors from "../errors/index.js";
 async function validateTokenMiddleware(req, res, next, optionalTypeRestricion) {
 
     const { authorization } = req.headers;
-    
+
     try {
         if (!authorization) {
             throw new errors.unauthorizedError();
@@ -38,7 +38,7 @@ async function validateTokenMiddleware(req, res, next, optionalTypeRestricion) {
 
         next();
     } catch (error) {
-        next(error);
+        next(errors.unauthorizedError());
     }
 }
 

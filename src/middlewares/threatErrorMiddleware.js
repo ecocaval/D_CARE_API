@@ -15,19 +15,27 @@ function threatErrorMiddleware(err, req, res, next) {
     ];
 
     if (err?.name === 'unauthorizedError' || err?.name === 'invalidLoginError') {
-        return res.status(httpStatus.UNAUTHORIZED).send(err?.message);
+        return res.status(httpStatus.UNAUTHORIZED).json({
+            data: err?.message
+        });
     }
 
     if (conflictErrors.includes(err?.name)) {
-        return res.status(httpStatus.CONFLICT).send(err?.message);
+        return res.status(httpStatus.CONFLICT).json({
+            data: err?.message
+        });
     }
 
     if (err?.name === 'unprocessableEntityError') {
-        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(err?.message);
+        return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+            data: err?.message
+        });
     }
 
     if (err?.name === 'notFoundError' || err?.name === 'appointmentNotFoundError') {
-        return res.status(httpStatus.NOT_FOUND).send(err?.message);
+        return res.status(httpStatus.NOT_FOUND).json({
+            data: err?.message
+        });
     }
 
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)
