@@ -8,20 +8,21 @@ import errors from "../errors/index.js";
 async function validateTokenMiddleware(req, res, next, optionalTypeRestricion) {
 
     const { authorization } = req.headers;
-    if (!authorization) {
-        throw new errors.unauthorizedError();
-    }
-
-    const [bearer, token] = authorization.split(' ');
-
-    if (!bearer || (bearer !== 'Bearer') || !token) {
-        throw new errors.unauthorizedError();
-    }
-
+    
     try {
+        if (!authorization) {
+            throw new errors.unauthorizedError();
+        }
+
+        const [bearer, token] = authorization.split(' ');
+
+        if (!bearer || (bearer !== 'Bearer') || !token) {
+            throw new errors.unauthorizedError();
+        }
+
         const { userId: id, type } = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 
-        if(optionalTypeRestricion && (optionalTypeRestricion !== type)) {
+        if (optionalTypeRestricion && (optionalTypeRestricion !== type)) {
             throw new errors.unauthorizedError();
         }
 

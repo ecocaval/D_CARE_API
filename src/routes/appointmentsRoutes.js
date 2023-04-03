@@ -25,6 +25,14 @@ appointmentsRoutes.get(
     appointmentsController.selectPatientAppointments
 );
 
+appointmentsRoutes.get(
+    '/doctor',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'doctor')
+    },
+    appointmentsController.selectDoctorAppointments
+);
+
 appointmentsRoutes.post(
     '/',
     (req, res, next) => {

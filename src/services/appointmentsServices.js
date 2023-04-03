@@ -16,6 +16,13 @@ async function selectPatientAppointments({ patientId, status }) {
     return appointments
 }
 
+async function selectDoctorAppointments({ doctorId, status }) {
+
+    const { rows: appointments } = await appointmentsRepositories.selectDoctorAppointments({ doctorId, status })
+
+    return appointments
+}
+
 async function create({ date, hour, doctorId }) {
 
     const { rowCount: conflictInAppointment } = await appointmentsRepositories.select({ date, hour, doctorId })
@@ -36,6 +43,7 @@ async function book({ patientId, appointmentId }) {
 export default {
     selectAll,
     selectPatientAppointments,
+    selectDoctorAppointments,
     create,
     book
 }

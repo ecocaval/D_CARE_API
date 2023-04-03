@@ -40,6 +40,24 @@ async function selectPatientAppointments({ patientId, status }) {
     `, [patientId, status]);
 }
 
+async function selectDoctorAppointments({ doctorId, status }) {
+    return await dataBase.query(`
+        SELECT 
+            a.*,    
+            l.name as "doctorName",
+            d."specialityName" as speciality
+        FROM appointments a
+        JOIN doctors d
+            ON a."doctorId" = d.id
+        JOIN logins l
+            ON d."loginId" = l.id            
+        WHERE 
+            a."doctorId" = $1 AND
+            (status = $2 OR $2 IS NULL)
+        ORDER BY a.id DESC;
+    `, [doctorId, status]);
+}
+
 async function select({ date, hour, doctorId }) {
     return await dataBase.query(`
         SELECT *
@@ -74,6 +92,7 @@ async function book({ patientId, appointmentId }) {
 export default {
     selectAll,
     selectPatientAppointments,
+    selectDoctorAppointments,
     select,
     selectById,
     create,
