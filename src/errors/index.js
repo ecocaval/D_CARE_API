@@ -1,7 +1,7 @@
 function unauthorizedError() {
     return {
         name: 'unauthorizedError',
-        message: 'You are not authorized to acess'
+        message: 'You are not authorized'
     }
 }
 
@@ -11,7 +11,6 @@ function appointmentNotFoundError() {
         message: "This appointment does not exist",
     };
 }
-
 
 function notFoundError() {
     return {
@@ -27,10 +26,31 @@ function conflictError() {
     }
 }
 
+function confirmedAppointmentError() {
+    return {
+        name: "confirmedAppointmentError",
+        message: "This appointment was already confirmed",
+    };
+}
+
+function canceledAppointmentError() {
+    return {
+        name: "canceledAppointmentError",
+        message: "This appointment was canceled",
+    };
+}
+
 function bookedAppointmentError() {
     return {
         name: 'bookedAppointmentError',
         message: 'This appointment is already booked'
+    }
+}
+
+function freeAppointmentError() {
+    return {
+        name: 'freeAppointmentError',
+        message: 'This appointment was not booked yet'
     }
 }
 
@@ -81,6 +101,9 @@ export default {
     appointmentNotFoundError,
     notFoundError,
     conflictError,
+    confirmedAppointmentError,
+    canceledAppointmentError,
+    freeAppointmentError,
     bookedAppointmentError,
     duplicatedAppointmentError,
     duplicatedEmailError,

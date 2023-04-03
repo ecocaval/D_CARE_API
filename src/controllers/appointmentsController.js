@@ -72,10 +72,24 @@ async function book(req, res, next) {
     }
 }
 
+async function confirm(req, res, next) {
+    try {
+        const { appointmentId } = req?.params
+        const { id: doctorId } = res?.locals?.user
+
+        await appointmentsServices.confirm({ appointmentId, doctorId })
+
+        return res.sendStatus(httpStatus.OK);
+    } catch (error) {
+        next(error);
+    }
+}
+
 export default {
     selectAll,
     selectPatientAppointments,
     selectDoctorAppointments,
     create,
-    book
+    book,
+    confirm
 }

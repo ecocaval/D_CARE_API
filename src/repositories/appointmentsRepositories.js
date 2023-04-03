@@ -89,6 +89,14 @@ async function book({ patientId, appointmentId }) {
 `, [patientId, appointmentId]);
 }
 
+async function confirm({ appointmentId }) {
+    return await dataBase.query(`
+        UPDATE appointments
+        SET status = 'confirmed'
+        WHERE id = $1;
+`, [+appointmentId]);
+}
+
 export default {
     selectAll,
     selectPatientAppointments,
@@ -96,5 +104,6 @@ export default {
     select,
     selectById,
     create,
-    book
+    book,
+    confirm
 }

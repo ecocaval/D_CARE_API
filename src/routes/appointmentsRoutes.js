@@ -50,4 +50,12 @@ appointmentsRoutes.put(
     appointmentsController.book
 );
 
+appointmentsRoutes.put(
+    '/:appointmentId/confirm',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'doctor')
+    },
+    appointmentsController.confirm
+);
+
 export default appointmentsRoutes;

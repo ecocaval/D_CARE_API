@@ -8,7 +8,10 @@ function threatErrorMiddleware(err, req, res, next) {
         'duplicatedCrmError',
         'duplicatedCpfError',
         'duplicatedAppointmentError',
-        'bookedAppointmentError'
+        'bookedAppointmentError',
+        'confirmedAppointmentError',
+        'canceledAppointmentError',
+        'freeAppointmentError'
     ];
 
     if (err?.name === 'unauthorizedError' || err?.name === 'invalidLoginError') {
