@@ -5,7 +5,7 @@ import patientsRepositories from "../repositories/patientsRepositories.js";
 
 import errors from "../errors/index.js";
 
-async function validateTokenMiddleware(req, res, next) {
+async function validateTokenMiddleware(req, res, next, optionalTypeRestricion) {
 
     const { authorization } = req.headers;
     if (!authorization) {
@@ -20,6 +20,10 @@ async function validateTokenMiddleware(req, res, next) {
 
     try {
         const { userId: id, type } = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+
+        if(optionalTypeRestricion && (optionalTypeRestricion !== type)) {
+            throw new errors.unauthorizedError();
+        }
 
         const { rows: [user] } = (type === 'doctor'
             ? await doctorsRepositories.selectByLoginId(id)

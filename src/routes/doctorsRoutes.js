@@ -8,7 +8,9 @@ const doctorsRoutes = Router();
 
 doctorsRoutes.get(
     '/',
-    validateTokenMiddleware,
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'patient')
+    },
     doctorsControllers.selectAll
 );
 

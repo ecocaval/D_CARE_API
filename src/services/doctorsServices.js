@@ -9,7 +9,7 @@ import errors from "../errors/index.js";
 
 async function selectAll({ name, specialityName }) {
 
-    const { rows: [doctors] } = await doctorsRepositories.selectAll({ name, specialityName });
+    const { rows: doctors } = await doctorsRepositories.selectAll({ name, specialityName });
 
     return doctors;
 }
