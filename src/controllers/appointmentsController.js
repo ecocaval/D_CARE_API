@@ -16,6 +16,21 @@ async function selectAll(req, res, next) {
     }
 }
 
+async function selectMyAppointments(req, res, next) {
+    try {
+        const { id: patientId } = res?.locals?.user
+        const { status } = req.query
+
+        const appointments = await appointmentsServices.selectMyAppointments({ patientId, status })
+
+        return res.status(httpStatus.OK).json({
+            data: appointments
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function create(req, res, next) {
     try {
         const { date, hour } = req.body;
@@ -44,6 +59,7 @@ async function book(req, res, next) {
 
 export default {
     selectAll,
+    selectMyAppointments,
     create,
     book
 }

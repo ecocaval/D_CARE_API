@@ -4,11 +4,6 @@ async function selectAll({ doctorName, date, hour, status, specialityName }) {
     return await dataBase.query(`
         SELECT 
             a.*,    
-            ( 
-                SELECT name as "patientName"
-                FROM patients
-                WHERE id = a."patientId"
-            ),
             l.name as "doctorName",
             d."specialityName" as speciality
         FROM appointments a
@@ -17,13 +12,32 @@ async function selectAll({ doctorName, date, hour, status, specialityName }) {
         JOIN logins l
             ON d."loginId" = l.id            
         WHERE 
+            status = 'free' AND
             (l.name = $1 OR $1 IS NULL) AND 
             (a.date = $2 OR $2 IS NULL) AND
             (a.hour = $3 OR $3 IS NULL) AND
             (a.status = $4 OR $4 IS NULL) AND
-            (d."specialityName" = $5 OR $5 IS NULL)
+            (d."specialityName" = $5 OR $5 IS NULL) 
         ORDER BY a.id DESC;
     `, [doctorName, date, hour, status, specialityName]);
+}
+
+async function selectMyAppointments({ patientId, status }) {
+    return await dataBase.query(`
+        SELECT 
+            a.*,    
+            l.name as "doctorName",
+            d."specialityName" as speciality
+        FROM appointments a
+        JOIN doctors d
+            ON a."doctorId" = d.id
+        JOIN logins l
+            ON d."loginId" = l.id            
+        WHERE 
+            a."patientId" = $1 AND
+            (status = $2 OR $2 IS NULL)
+        ORDER BY a.id DESC;
+    `, [patientId, status]);
 }
 
 async function select({ date, hour, doctorId }) {
@@ -59,6 +73,7 @@ async function book({ patientId, appointmentId }) {
 
 export default {
     selectAll,
+    selectMyAppointments,
     select,
     selectById,
     create,

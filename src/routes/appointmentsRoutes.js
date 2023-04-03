@@ -17,6 +17,14 @@ appointmentsRoutes.get(
     appointmentsController.selectAll
 );
 
+appointmentsRoutes.get(
+    '/myAppointments',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'patient')
+    },
+    appointmentsController.selectMyAppointments
+);
+
 appointmentsRoutes.post(
     '/',
     (req, res, next) => {
