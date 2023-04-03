@@ -36,7 +36,7 @@ function confirmedAppointmentError() {
 function canceledAppointmentError() {
     return {
         name: "canceledAppointmentError",
-        message: "This appointment was canceled",
+        message: "This appointment was already canceled",
     };
 }
 

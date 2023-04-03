@@ -58,4 +58,12 @@ appointmentsRoutes.put(
     appointmentsController.confirm
 );
 
+appointmentsRoutes.put(
+    '/:appointmentId/cancel',
+    (req, res, next) => {
+        validateTokenMiddleware(req, res, next, 'doctor')
+    },
+    appointmentsController.cancel
+);
+
 export default appointmentsRoutes;

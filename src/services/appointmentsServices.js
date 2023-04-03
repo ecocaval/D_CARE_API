@@ -42,7 +42,7 @@ async function book({ patientId, appointmentId }) {
 
 async function confirm({ appointmentId, doctorId }) {
     const { rows: [appointment], rowCount: appointmentExists } = await appointmentsRepositories.selectById(appointmentId)
-    if(!appointmentExists) {
+    if (!appointmentExists) {
         throw new errors.appointmentNotFoundError();
     }
     if (appointment.status === 'confirmed') {
@@ -56,8 +56,22 @@ async function confirm({ appointmentId, doctorId }) {
     }
     if (appointment.doctorId !== doctorId) {
         throw new errors.unauthorizedError();
-    }    
-    await appointmentsRepositories.confirm({appointmentId});
+    }
+    await appointmentsRepositories.confirm({ appointmentId });
+}
+
+async function cancel({ appointmentId, doctorId }) {
+    const { rows: [appointment], rowCount: appointmentExists } = await appointmentsRepositories.selectById(appointmentId)
+    if (!appointmentExists) {
+        throw new errors.appointmentNotFoundError();
+    }
+    if (appointment.status === 'canceled') {
+        throw new errors.canceledAppointmentError();
+    }
+    if (appointment.doctorId !== doctorId) {
+        throw new errors.unauthorizedError();
+    }
+    await appointmentsRepositories.cancel({ appointmentId });
 }
 
 export default {
@@ -66,5 +80,6 @@ export default {
     selectDoctorAppointments,
     create,
     book,
-    confirm
+    confirm,
+    cancel
 }

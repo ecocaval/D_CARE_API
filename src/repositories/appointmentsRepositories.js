@@ -94,8 +94,17 @@ async function confirm({ appointmentId }) {
         UPDATE appointments
         SET status = 'confirmed'
         WHERE id = $1;
-`, [+appointmentId]);
+`, [appointmentId]);
 }
+
+async function cancel({ appointmentId }) {
+    return await dataBase.query(`
+        UPDATE appointments
+        SET status = 'canceled'
+        WHERE id = $1;
+`, [appointmentId]);
+}
+
 
 export default {
     selectAll,
@@ -105,5 +114,6 @@ export default {
     selectById,
     create,
     book,
-    confirm
+    confirm,
+    cancel
 }
