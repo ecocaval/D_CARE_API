@@ -19,6 +19,13 @@ function conflictError() {
     }
 }
 
+function duplicatedAppointmentError() {
+    return {
+        name: 'duplicatedAppointmentError',
+        message: 'This appointment already exists'
+    }
+}
+
 function duplicatedEmailError() {
     return {
         name: 'duplicatedEmailError',
@@ -58,6 +65,7 @@ export default {
     unauthorizedError,
     notFoundError,
     conflictError,
+    duplicatedAppointmentError,
     duplicatedEmailError,
     duplicatedCrmError,
     duplicatedCpfError,
