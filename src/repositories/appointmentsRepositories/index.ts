@@ -1,6 +1,17 @@
-import dataBase from "../configs/dataBase.js";
+import {
+    AppointmentIdType,
+    BookType,
+    SelectAllType,
+    SelectDoctorAppointmentsType,
+    SelectPatientAppointmentsType,
+    SelectType
+} from "./@types/index.js";
 
-async function selectAll({ doctorName, date, hour, status, specialityName }) {
+import dataBase from "../../configs/dataBase.js";
+
+async function selectAll(
+    { doctorName, date, hour, status, specialityName }: SelectAllType
+) {
     return await dataBase.query(`
         SELECT 
             a.*,    
@@ -22,7 +33,9 @@ async function selectAll({ doctorName, date, hour, status, specialityName }) {
     `, [doctorName, date, hour, status, specialityName]);
 }
 
-async function selectPatientAppointments({ patientId, status }) {
+async function selectPatientAppointments(
+    { patientId, status }: SelectPatientAppointmentsType
+) {
     return await dataBase.query(`
         SELECT 
             a.*,    
@@ -40,7 +53,9 @@ async function selectPatientAppointments({ patientId, status }) {
     `, [patientId, status]);
 }
 
-async function selectDoctorAppointments({ doctorId, status }) {
+async function selectDoctorAppointments(
+    { doctorId, status }: SelectDoctorAppointmentsType
+) {
     return await dataBase.query(`
         SELECT 
             a.*,    
@@ -58,7 +73,9 @@ async function selectDoctorAppointments({ doctorId, status }) {
     `, [doctorId, status]);
 }
 
-async function select({ date, hour, doctorId }) {
+async function select(
+    { date, hour, doctorId }: SelectType
+) {
     return await dataBase.query(`
         SELECT *
         FROM appointments 
@@ -66,7 +83,9 @@ async function select({ date, hour, doctorId }) {
     `, [date, hour, doctorId]);
 }
 
-async function selectById(appointmentId) {
+async function selectById(
+    { appointmentId }: AppointmentIdType
+) {
     return await dataBase.query(`
         SELECT *
         FROM appointments 
@@ -74,14 +93,18 @@ async function selectById(appointmentId) {
     `, [appointmentId]);
 }
 
-async function create({ date, hour, doctorId }) {
+async function create(
+    { date, hour, doctorId }: SelectType
+) {
     return await dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
         VALUES ($1, $2, $3);
     `, [date, hour, doctorId]);
 }
 
-async function book({ patientId, appointmentId }) {
+async function book(
+    { patientId, appointmentId }: BookType
+) {
     return await dataBase.query(`
         UPDATE appointments
         SET "patientId" = $1, status = 'booked'
@@ -89,7 +112,9 @@ async function book({ patientId, appointmentId }) {
 `, [patientId, appointmentId]);
 }
 
-async function confirm({ appointmentId }) {
+async function confirm(
+    { appointmentId }: AppointmentIdType
+) {
     return await dataBase.query(`
         UPDATE appointments
         SET status = 'confirmed'
@@ -97,14 +122,15 @@ async function confirm({ appointmentId }) {
 `, [appointmentId]);
 }
 
-async function cancel({ appointmentId }) {
+async function cancel(
+    { appointmentId }: AppointmentIdType
+) {
     return await dataBase.query(`
         UPDATE appointments
         SET status = 'canceled'
         WHERE id = $1;
 `, [appointmentId]);
 }
-
 
 export default {
     selectAll,

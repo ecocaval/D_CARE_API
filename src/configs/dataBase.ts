@@ -9,7 +9,7 @@ const dataBase = new Pool({
     password: process.env.PGPASSWORD,
     host: process.env.PGHOST,
     database: process.env.PGDATABASE,
-    port: process.env.PGPORT,
+    port: Number(process.env.PGPORT),
     ssl: {
         rejectUnauthorized: process.env.NODE_ENV === 'dev' ? false : true
     }

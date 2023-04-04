@@ -1,6 +1,10 @@
-import dataBase from "../configs/dataBase.js";
+import { CreateType, SelectAllType } from "./@types/index.js";
 
-async function selectAll({ name, specialityName }) {
+import dataBase from "../../configs/dataBase.js";
+
+async function selectAll(
+    { name, specialityName }: SelectAllType
+) {
     return await dataBase.query(`
         SELECT 
             l.name, l.email, l.type,  
@@ -15,7 +19,7 @@ async function selectAll({ name, specialityName }) {
     `, [name, specialityName]);
 }
 
-async function selectByLoginId(id) {
+async function selectByLoginId(id: string) {
     return await dataBase.query(`
         SELECT * 
         FROM doctors
@@ -23,7 +27,7 @@ async function selectByLoginId(id) {
     `, [id]);
 }
 
-async function selectByCrm(crm) {
+async function selectByCrm(crm: string) {
     return await dataBase.query(`
         SELECT * 
         FROM doctors
@@ -31,7 +35,9 @@ async function selectByCrm(crm) {
     `, [crm]);
 }
 
-async function create({ specialityName, crm, crmOptionals, loginId }) {
+async function create(
+    { specialityName, crm, crmOptionals, loginId }: CreateType
+) {
     return await dataBase.query(`
         INSERT INTO doctors ("specialityName", crm, "crmOptionals", "loginId")
         VALUES ($1, $2, $3, $4);

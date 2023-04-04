@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 import appointmentsController from "../controllers/appointmentsController.js";
 
@@ -11,7 +11,7 @@ const appointmentsRoutes = Router();
 
 appointmentsRoutes.get(
     '/',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'patient')
     },
     appointmentsController.selectAll
@@ -19,7 +19,7 @@ appointmentsRoutes.get(
 
 appointmentsRoutes.get(
     '/patient',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'patient')
     },
     appointmentsController.selectPatientAppointments
@@ -27,7 +27,7 @@ appointmentsRoutes.get(
 
 appointmentsRoutes.get(
     '/doctor',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'doctor')
     },
     appointmentsController.selectDoctorAppointments
@@ -35,7 +35,7 @@ appointmentsRoutes.get(
 
 appointmentsRoutes.post(
     '/',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'doctor')
     },
     validateSchemaMiddleware(appointmentsSchemas.create),
@@ -44,7 +44,7 @@ appointmentsRoutes.post(
 
 appointmentsRoutes.put(
     '/:appointmentId/book',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'patient')
     },
     appointmentsController.book
@@ -52,7 +52,7 @@ appointmentsRoutes.put(
 
 appointmentsRoutes.put(
     '/:appointmentId/confirm',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'doctor')
     },
     appointmentsController.confirm
@@ -60,7 +60,7 @@ appointmentsRoutes.put(
 
 appointmentsRoutes.put(
     '/:appointmentId/cancel',
-    (req, res, next) => {
+    (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'doctor')
     },
     appointmentsController.cancel
