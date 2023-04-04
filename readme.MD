@@ -29,7 +29,96 @@ Then you must install all the dependencies running:
 npm install
 ```
 
-If you want to use and test the api you will have to recriate the database considering the tables that are showen in the database modeling, feel free to add improvements given the basis. To connect to the database create a .env file and populate it given the .env.example file:
+If you want to use and test the api you will have to recriate the database considering the tables that are showen in the database modeling, feel free to add improvements given the basis. 
+
+```sql
+CREATE TABLE logins (
+	"id" serial NOT NULL,
+	"name" varchar(100) NOT NULL,
+	"email" varchar(100) NOT NULL UNIQUE,
+	"password" varchar(255) NOT NULL,
+	"type" varchar(255) NOT NULL,
+	"createdAt" DATE NOT NULL DEFAULT 'NOW()',
+	CONSTRAINT "logins_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE patients (
+	"id" serial NOT NULL,
+	"cpf" varchar(11) NOT NULL UNIQUE,
+	"loginId" int NOT NULL UNIQUE,
+	CONSTRAINT "patients_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE doctors (
+	"id" serial NOT NULL,
+	"specialityName" varchar(100) NOT NULL,
+	"crm" varchar(6) NOT NULL UNIQUE,
+	"crmOptionals" TEXT,
+	"createdAt" DATE NOT NULL DEFAULT 'NOW()',
+	"loginId" int NOT NULL UNIQUE,
+	CONSTRAINT "doctors_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE specialities (
+	"id" serial NOT NULL,
+	"name" varchar(100) NOT NULL UNIQUE,
+	CONSTRAINT "specialities_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE appointments (
+	"id" serial NOT NULL,
+	"date" DATE NOT NULL,
+	"doctorId" int NOT NULL,
+	"patientId" int,
+	"hour" time with time zone NOT NULL,
+	"status" varchar(50) NOT NULL DEFAULT 'free',
+	CONSTRAINT "appointments_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "forbidenSessions" (
+	"id" SERIAL NOT NULL,
+	"token" VARCHAR(255) NOT NULL,
+	"createdAt" DATE DEFAULT NOW()
+);
+
+ALTER TABLE "patients" 
+ADD CONSTRAINT "patients_fk0" 
+FOREIGN KEY ("loginId") 
+REFERENCES "logins"("id") ON DELETE CASCADE;
+
+ALTER TABLE "doctors" 
+ADD CONSTRAINT "doctors_fk0" 
+FOREIGN KEY ("specialityName") 
+REFERENCES "specialities"("name") ON DELETE CASCADE;
+
+ALTER TABLE "doctors" 
+ADD CONSTRAINT "doctors_fk1" 
+FOREIGN KEY ("loginId") 
+REFERENCES "logins"("id") ON DELETE CASCADE;
+
+ALTER TABLE "appointments" 
+ADD CONSTRAINT "appointments_fk0" 
+FOREIGN KEY ("doctorId") 
+REFERENCES "doctors"("id") ON DELETE CASCADE;
+
+ALTER TABLE "appointments" 
+ADD CONSTRAINT "appointments_fk1" 
+FOREIGN KEY ("patientId") 
+REFERENCES "patients"("id") ON DELETE CASCADE;
+```
+
+
+To connect to the database create a .env file and populate it given the .env.example file:
 
 ```javascript
 --Considering a local database--
