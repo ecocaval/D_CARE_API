@@ -1,11 +1,24 @@
-import { NextFunction, Request, Response } from "express";
+import {
+    CreateAppointmentType,
+    SelectAllAppointmentsType,
+    SelectDoctorAppointmentsType,
+    SelectPatientAppointmentsType
+} from "../@types/appointments.js";
+
+import { ResponseLocalsType } from "../@types/response.js";
+
+import {
+    NextFunction,
+    Request,
+    Response
+} from "express";
 
 import httpStatus from "http-status";
 
 import appointmentsServices from "../services/appointmentsServices.js";
 
 async function selectAll(req: Request, res: Response, next: NextFunction) {
-    const { doctorName, date, hour, status, specialityName } = req.query
+    const { doctorName, date, hour, status, specialityName } = req.query as SelectAllAppointmentsType
     try {
         const appointments = await appointmentsServices.selectAll(
             { doctorName, date, hour, status, specialityName }
@@ -15,14 +28,13 @@ async function selectAll(req: Request, res: Response, next: NextFunction) {
             data: appointments
         })
     } catch (error) {
-
         next(error);
     }
 }
 
 async function selectPatientAppointments(req: Request, res: Response, next: NextFunction) {
-    const { id: patientId } = res?.locals?.user
-    const { status } = req.query
+    const { id: patientId } = res?.locals?.user as ResponseLocalsType
+    const { status } = req.query as SelectPatientAppointmentsType
     try {
         const appointments = await appointmentsServices.selectPatientAppointments({ patientId, status })
 
@@ -30,74 +42,68 @@ async function selectPatientAppointments(req: Request, res: Response, next: Next
             data: appointments
         })
     } catch (error) {
-
         next(error);
     }
 }
 
 async function selectDoctorAppointments(req: Request, res: Response, next: NextFunction) {
-    const { id: doctorId } = res?.locals?.user
-    const { status } = req.query
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
+    const { status } = req.query as SelectDoctorAppointmentsType
     try {
         const appointments = await appointmentsServices.selectDoctorAppointments({ doctorId, status })
-
+        
         return res.status(httpStatus.OK).json({
             data: appointments
         })
     } catch (error) {
-
         next(error);
     }
 }
 
 async function create(req: Request, res: Response, next: NextFunction) {
-    const { date, hour } = req.body;
-    const { id: doctorId } = res?.locals?.user
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
+    const { date, hour } = req.body as CreateAppointmentType;
     try {
         await appointmentsServices.create({ date, hour, doctorId })
 
         return res.sendStatus(httpStatus.CREATED);
     } catch (error) {
-
         next(error);
     }
 }
 
 async function book(req: Request, res: Response, next: NextFunction) {
-    const { id: patientId } = res?.locals?.user
+    const { id: patientId } = res?.locals?.user as ResponseLocalsType
     const { appointmentId } = req?.params
     try {
         await appointmentsServices.book({ patientId, appointmentId })
 
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
-
         next(error);
     }
 }
 
 async function confirm(req: Request, res: Response, next: NextFunction) {
+    const { id: doctorId } = res?.locals.user as ResponseLocalsType
     const { appointmentId } = req?.params
-    const { id: doctorId } = res?.locals?.user
     try {
         await appointmentsServices.confirm({ appointmentId, doctorId })
 
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
-
         next(error);
     }
 }
 
 async function cancel(req: Request, res: Response, next: NextFunction) {
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
     const { appointmentId } = req?.params
-    const { id: doctorId } = res?.locals?.user
     try {
         await appointmentsServices.cancel({ appointmentId, doctorId })
-
+        
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
-
         next(error);
     }
 }

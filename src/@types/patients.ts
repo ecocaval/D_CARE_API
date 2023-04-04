@@ -1,4 +1,4 @@
-export type CreateType = {
+export type CreatePatientType = {
     cpf: string, 
     loginId: string
 }

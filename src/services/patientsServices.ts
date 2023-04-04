@@ -3,8 +3,8 @@ import { SignInType, SignUpPatientType } from './@types/index.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import loginsRepositories from "../repositories/loginsRepositories/index.js";
-import patientsRepositories from "../repositories/patientsRepositories/index.js";
+import loginsRepositories from "../repositories/loginsRepositories.js";
+import patientsRepositories from "../repositories/patientsRepositories.js";
 
 import errors from "../errors/index.js";
 

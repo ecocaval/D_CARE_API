@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-
 import { stripHtml } from 'string-strip-html';
 
 function sanitizeBodyMiddleware(req: Request, res: Response, next: NextFunction) {

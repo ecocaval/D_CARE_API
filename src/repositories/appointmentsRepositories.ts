@@ -1,16 +1,19 @@
 import {
-    AppointmentIdType,
-    BookType,
-    SelectAllType,
+    BookAppointmentType,
+    CancelAppointmentType,
+    ConfirmAppointmentType,
+    CreateAppointmentType,
+    SelectAllAppointmentsType,
+    SelectAppointmentByIdType,
+    SelectAppointmentType,
     SelectDoctorAppointmentsType,
-    SelectPatientAppointmentsType,
-    SelectType
-} from "./@types/index.js";
+    SelectPatientAppointmentsType
+} from "../@types/appointments.js";
 
-import dataBase from "../../configs/dataBase.js";
+import dataBase from "../configs/dataBase.js";
 
 async function selectAll(
-    { doctorName, date, hour, status, specialityName }: SelectAllType
+    { doctorName, date, hour, status, specialityName }: SelectAllAppointmentsType
 ) {
     return await dataBase.query(`
         SELECT 
@@ -74,7 +77,7 @@ async function selectDoctorAppointments(
 }
 
 async function select(
-    { date, hour, doctorId }: SelectType
+    { date, hour, doctorId }: SelectAppointmentType
 ) {
     return await dataBase.query(`
         SELECT *
@@ -84,7 +87,7 @@ async function select(
 }
 
 async function selectById(
-    { appointmentId }: AppointmentIdType
+    { appointmentId }: SelectAppointmentByIdType
 ) {
     return await dataBase.query(`
         SELECT *
@@ -94,7 +97,7 @@ async function selectById(
 }
 
 async function create(
-    { date, hour, doctorId }: SelectType
+    { date, hour, doctorId }: CreateAppointmentType
 ) {
     return await dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
@@ -103,7 +106,7 @@ async function create(
 }
 
 async function book(
-    { patientId, appointmentId }: BookType
+    { patientId, appointmentId }: BookAppointmentType
 ) {
     return await dataBase.query(`
         UPDATE appointments
@@ -113,7 +116,7 @@ async function book(
 }
 
 async function confirm(
-    { appointmentId }: AppointmentIdType
+    { appointmentId }: ConfirmAppointmentType
 ) {
     return await dataBase.query(`
         UPDATE appointments
@@ -123,7 +126,7 @@ async function confirm(
 }
 
 async function cancel(
-    { appointmentId }: AppointmentIdType
+    { appointmentId }: CancelAppointmentType
 ) {
     return await dataBase.query(`
         UPDATE appointments

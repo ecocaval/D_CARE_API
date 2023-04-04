@@ -4,10 +4,10 @@ import {
     SelectAllType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType,
-    SelectType
+    SelectAppointmentsType
 } from '../repositories/appointmentsRepositories/@types/index.js';
 
-import appointmentsRepositories from '../repositories/appointmentsRepositories/index.js';
+import appointmentsRepositories from '../repositories/appointmentsRepositories.js';
 
 import errors from '../errors/index.js';
 
@@ -32,7 +32,7 @@ async function selectDoctorAppointments({ doctorId, status }: SelectDoctorAppoin
     return appointments;
 }
 
-async function create({ date, hour, doctorId }: SelectType) {
+async function create({ date, hour, doctorId }: SelectAppointmentsType) {
 
     const { rowCount: conflictInAppointment } = await appointmentsRepositories.select({ date, hour, doctorId });
     if (!!conflictInAppointment) throw errors.duplicatedAppointmentError();
