@@ -1,39 +1,47 @@
+import { SignInType, SignUpDoctorType } from './@types/index.js';
+
+import { SelectAllType } from '../repositories/doctorsRepositories/@types/index.js';
+
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import loginsRepositories from "../repositories/loginsRepositories.js";
-import doctorsRepositories from "../repositories/doctorsRepositories.js";
-import specialitiesRepositories from "../repositories/specialitiesRepositories.js";
+import loginsRepositories from "../repositories/loginsRepositories/index.js";
+import doctorsRepositories from "../repositories/doctorsRepositories/index.js";
+import specialitiesRepositories from "../repositories/specialitiesRepositories/index.js";
 
 import errors from "../errors/index.js";
 
-async function selectAll({ name, specialityName }) {
+async function selectAll({ name, specialityName }: SelectAllType) {
 
     const { rows: doctors } = await doctorsRepositories.selectAll({ name, specialityName });
 
     return doctors;
 }
 
-async function signIn({ email, password, type }) {
+async function signIn({ email, password, type }: SignInType) {
 
     const { rowCount: doctorExists, rows: [doctor] } = await loginsRepositories.selectByEmail(email);
-    if (!doctorExists || (type !== doctor.type)) throw new errors.unauthorizedError();
+    if (!doctorExists || (type !== doctor.type)) throw errors.unauthorizedError();
 
     const passwordIsCorrect = bcrypt.compareSync(password, doctor.password);
-    if (!passwordIsCorrect) throw new errors.unauthorizedError();
+    if (!passwordIsCorrect) throw errors.unauthorizedError();
 
-    const token = jwt.sign({ userId: doctor.id, type }, process.env.JWT_PRIVATE_KEY, { expiresIn: 86400 });
+    const token = jwt.sign(
+        { userId: doctor.id, type },
+        String(process.env.JWT_PRIVATE_KEY),
+        { expiresIn: 86400 }
+    );
 
     return token;
 }
 
-async function signUp({ name, email, password, type, specialityName, crm, crmOptionals }) {
+async function signUp({ name, email, password, type, specialityName, crm, crmOptionals } : SignUpDoctorType) {
 
     const { rowCount: emailInUse } = await loginsRepositories.selectByEmail(email);
-    if (!!emailInUse) throw new errors.duplicatedEmailError();
+    if (!!emailInUse) throw errors.duplicatedEmailError();
 
     const { rowCount: crmInUse } = await doctorsRepositories.selectByCrm(crm);
-    if (!!crmInUse) throw new errors.duplicatedCrmError();
+    if (!!crmInUse) throw errors.duplicatedCrmError();
 
     const { rows: [{ id: loginId }] } = await loginsRepositories.create({
         name, email, password: bcrypt.hashSync(password, 10), type

@@ -24,6 +24,14 @@
     "string-strip-html": "^13.2.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/pg": "^8.6.6",
+    "@types/qs": "^6.9.7",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.3"
   }
 }

@@ -1,8 +1,10 @@
+import { NextFunction, Request, Response } from "express";
+
 import httpStatus from "http-status";
 
 import doctorsServices from "../services/doctorsServices.js";
 
-async function selectAll(req, res, next) {
+async function selectAll(req: Request, res: Response, next: NextFunction) {
     const { name, specialityName } = req.query;
     try {
         const doctors = await doctorsServices.selectAll({ name, specialityName })

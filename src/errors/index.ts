@@ -89,7 +89,7 @@ function invalidLoginError() {
     }
 }
 
-function unprocessableEntityError(message) {
+function unprocessableEntityError(message: string) {
     return {
         name: 'unprocessableEntityError',
         message

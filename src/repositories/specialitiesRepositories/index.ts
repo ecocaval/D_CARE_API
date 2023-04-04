@@ -1,6 +1,6 @@
-import dataBase from "../configs/dataBase.js";
+import dataBase from "../../configs/dataBase.js";
 
-async function selectByName(specialityName) {
+async function selectByName(specialityName: string) {
     return await dataBase.query(`
         SELECT *
         FROM specialities
@@ -8,7 +8,7 @@ async function selectByName(specialityName) {
     `, [specialityName]);
 }
 
-async function create(specialityName) {
+async function create(specialityName: string) {
     return await dataBase.query(`
         INSERT INTO specialities (name)
         VALUES ($1);
