@@ -19,8 +19,6 @@ async function selectAll(
     `, [name, specialityName]) as DoctorsWithLoginPromiseType;
 }
 
-
-
 async function selectByLoginId(id: string) {
     return dataBase.query(`
         SELECT * 

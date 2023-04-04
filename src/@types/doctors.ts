@@ -4,11 +4,11 @@ import { QueryResult } from "pg";
 
 type DoctorType = {
     id: number;
-    name: string;
-    email: string;
-    password: string;
-    type: string;
+    specialityName: string;
+    crm: string;
+    crmOptionals: string | null;
     createdAt: string;
+    loginId: number;
 };
 
 type DoctorWithLoginType = {

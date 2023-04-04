@@ -12,7 +12,7 @@ type AppointmentType = {
     speciality: string;
 }
 
-export type AppointmentsPromiseType = Promise<QueryResult<AppointmentType>>
+export type AppointmentsPromiseType = Promise<QueryResult<AppointmentType>>;
 
 export type SelectAllAppointmentsType = {
     doctorName?: QueryType;
