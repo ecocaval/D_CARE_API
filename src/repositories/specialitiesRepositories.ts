@@ -1,3 +1,5 @@
+import { SpecialitiesPromiseType } from "../@types/specialities.js";
+
 import dataBase from "../configs/dataBase.js";
 
 async function selectByName(specialityName: string) {
@@ -5,7 +7,7 @@ async function selectByName(specialityName: string) {
         SELECT *
         FROM specialities
         WHERE name = $1;
-    `, [specialityName]);
+    `, [specialityName]) as SpecialitiesPromiseType;
 }
 
 async function create(specialityName: string) {
