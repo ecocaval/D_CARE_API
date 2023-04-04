@@ -9,7 +9,7 @@
             "module": "es6",
             "strict": true,
             "allowJs": false,
-            "rootDir": "./src", // specify the root directory here
+            "rootDir": "./src", 
             "moduleResolution": "node",
             "lib": [
                 "es2021"
@@ -22,7 +22,7 @@
         "module": "es6",
         "strict": true,
         "allowJs": false,
-        "rootDir": "./src", // specify the root directory here
+        "rootDir": "./src", 
         "moduleResolution": "node",
         "lib": [
             "es2021"
