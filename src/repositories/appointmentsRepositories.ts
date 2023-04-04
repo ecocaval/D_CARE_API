@@ -1,4 +1,5 @@
 import {
+    AppointmentType,
     BookAppointmentType,
     CreateAppointmentType,
     SelectAllAppointmentsType,
@@ -7,6 +8,8 @@ import {
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
 } from "../@types/appointments.js";
+
+import { QueryResult } from "pg";
 
 import dataBase from "../configs/dataBase.js";
 
@@ -31,7 +34,7 @@ async function selectAll(
             (a.status = $4 OR $4 IS NULL) AND
             (d."specialityName" = $5 OR $5 IS NULL) 
         ORDER BY a.id DESC;
-    `, [doctorName, date, hour, status, specialityName]);
+    `, [doctorName, date, hour, status, specialityName]) as Promise<QueryResult<AppointmentType>>;
 }
 
 async function selectPatientAppointments(
@@ -51,7 +54,7 @@ async function selectPatientAppointments(
             a."patientId" = $1 AND
             (status = $2 OR $2 IS NULL)
         ORDER BY a.id DESC;
-    `, [patientId, status]);
+    `, [patientId, status]) as Promise<QueryResult<AppointmentType>>;
 }
 
 async function selectDoctorAppointments(
@@ -71,7 +74,7 @@ async function selectDoctorAppointments(
             a."doctorId" = $1 AND
             (status = $2 OR $2 IS NULL)
         ORDER BY a.id DESC;
-    `, [doctorId, status]);
+    `, [doctorId, status]) as Promise<QueryResult<AppointmentType>>;
 }
 
 async function select(
@@ -81,7 +84,7 @@ async function select(
         SELECT *
         FROM appointments 
         WHERE date = $1 AND hour = $2 AND "doctorId" = $3 AND status <> 'canceled';
-    `, [date, hour, doctorId]);
+    `, [date, hour, doctorId]) as Promise<QueryResult<AppointmentType>>;
 }
 
 async function selectById(
@@ -91,7 +94,7 @@ async function selectById(
         SELECT *
         FROM appointments 
         WHERE id = $1;
-    `, [appointmentId]);
+    `, [appointmentId]) as Promise<QueryResult<AppointmentType>>;
 }
 
 async function create(

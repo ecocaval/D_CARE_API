@@ -72,7 +72,7 @@ async function confirm({ appointmentId, doctorId }: ConfirmAppointmentType) {
     if (appointment.status === 'free') {
         throw errors.freeAppointmentError();
     };
-    if (appointment.doctorId !== doctorId) {
+    if (appointment.doctorId !== +doctorId) {
         throw errors.unauthorizedError();
     };
     await appointmentsRepositories.confirm({ appointmentId });
@@ -90,7 +90,7 @@ async function cancel({ appointmentId, doctorId }: CancelAppointmentType) {
     if (appointment.status === 'canceled') {
         throw errors.canceledAppointmentError();
     };
-    if (appointment.doctorId !== doctorId) {
+    if (appointment.doctorId !== +doctorId) {
         throw errors.unauthorizedError();
     };
     await appointmentsRepositories.cancel({ appointmentId });

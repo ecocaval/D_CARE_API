@@ -1,5 +1,16 @@
 import { QueryType } from "./query";
 
+export type AppointmentType = {
+    id: number;
+    date: string;
+    doctorId: number;
+    patientId: number | null;
+    hour: string;
+    status: "free" | "booked" | "confirmed" | "canceled";
+    doctorName: string;
+    speciality: string;
+}
+
 export type SelectAllAppointmentsType = {
     doctorName?: QueryType;
     date?: QueryType;
