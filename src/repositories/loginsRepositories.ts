@@ -1,4 +1,4 @@
-import { CreateLoginType } from "../@types/logins.js";
+import { CreateLoginType, LoginsPromiseType } from "../@types/logins.js";
 
 import dataBase from "../configs/dataBase.js";
 
@@ -7,7 +7,7 @@ async function selectByEmail(email: string) {
         SELECT * 
         FROM logins
         WHERE email = $1; 
-    `, [email]);
+    `, [email]) as LoginsPromiseType;
 }
 
 async function create({ name, email, password, type }: CreateLoginType) {

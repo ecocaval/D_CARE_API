@@ -1,3 +1,16 @@
+import { QueryResult } from "pg";
+
+type LoginType = {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    type: string;
+    createdAt: string;
+};
+
+export type LoginsPromiseType = Promise<QueryResult<LoginType>>;
+
 export type SignInType = {
     email: string,
     password: string,
