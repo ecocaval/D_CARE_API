@@ -1,4 +1,4 @@
-import { CreatePatientType } from "../@types/patients.js";
+import { CreatePatientType, PatientsPromiseType } from "../@types/patients.js";
 
 import dataBase from "../configs/dataBase.js";
 
@@ -7,7 +7,7 @@ async function selectByLoginId(id: string) {
         SELECT * 
         FROM patients
         WHERE "loginId" = $1; 
-    `, [id]);
+    `, [id]) as PatientsPromiseType;
 }
 
 async function selectByCpf(cpf: string) {
@@ -15,7 +15,7 @@ async function selectByCpf(cpf: string) {
         SELECT * 
         FROM patients
         WHERE cpf = $1; 
-    `, [cpf]);
+    `, [cpf]) as PatientsPromiseType;
 }
 
 async function create({ cpf, loginId }: CreatePatientType) {
