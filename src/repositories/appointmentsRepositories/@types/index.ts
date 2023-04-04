@@ -1,23 +1,23 @@
 import { ParsedQs } from 'qs';
 
-export type QueryType = string | ParsedQs | string[] | ParsedQs[] | null | undefined ;
+export type QueryType = string | ParsedQs | string[] | ParsedQs[] ;
 
 export type SelectAllType = {
-    doctorName: QueryType;
-    date: QueryType;
-    hour: QueryType;
-    status: QueryType;
-    specialityName: QueryType;
+    doctorName?: QueryType;
+    date?: QueryType;
+    hour?: QueryType;
+    status?: QueryType;
+    specialityName?: QueryType;
 };
 
 export type SelectPatientAppointmentsType = {
     patientId: string;
-    status: QueryType;
+    status?: QueryType;
 };
 
 export type SelectDoctorAppointmentsType = {
     doctorId: string;
-    status: QueryType;
+    status?: QueryType;
 };
 
 export type AppointmentIdType = {

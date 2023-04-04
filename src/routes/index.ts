@@ -8,7 +8,7 @@ import appointmentsRoutes from "./appointmentsRoutes.js";
 
 const routes = Router();
 
-// routes.use(sanitizeBodyMiddleware);
+routes.use(sanitizeBodyMiddleware);
 
 routes.use('/login', loginsRoutes);
 routes.use('/doctors', doctorsRoutes);
