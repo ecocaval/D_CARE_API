@@ -8,6 +8,6 @@ export type SelectAllType = {
 export type CreateType = {
     specialityName?: QueryType;
     crm?: QueryType;
-    crmOptionals?: QueryType;
+    crmOptionals?: QueryType | null;
     loginId?: QueryType;
 };
