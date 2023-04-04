@@ -1,4 +1,4 @@
-import dataBase from "../../configs/dataBase.js";
+import dataBase from "../configs/dataBase.js";
 
 async function selectByName(specialityName: string) {
     return await dataBase.query(`

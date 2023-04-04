@@ -1,6 +1,6 @@
-import { CreateType } from "./@types/index.js";
+import { CreateLoginType } from "../@types/logins.js";
 
-import dataBase from "../../configs/dataBase.js";
+import dataBase from "../configs/dataBase.js";
 
 async function selectByEmail(email: string) {
     return await dataBase.query(`
@@ -10,7 +10,7 @@ async function selectByEmail(email: string) {
     `, [email]);
 }
 
-async function create({ name, email, password, type }: CreateType) {
+async function create({ name, email, password, type }: CreateLoginType) {
     return await dataBase.query(`
         INSERT INTO logins (name, email, password, type)
         VALUES ($1, $2, $3, $4)

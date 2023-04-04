@@ -1,17 +1,16 @@
-import { SignInType, SignUpDoctorType } from './@types/index.js';
-
-import { SelectAllType } from '../repositories/doctorsRepositories/@types/index.js';
+import { SelectAllDoctorsType } from '../@types/doctors.js';
+import { SignInType, SignUpDoctorType } from '../@types/logins.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import loginsRepositories from "../repositories/loginsRepositories/index.js";
-import doctorsRepositories from "../repositories/doctorsRepositories/index.js";
-import specialitiesRepositories from "../repositories/specialitiesRepositories/index.js";
+import loginsRepositories from "../repositories/loginsRepositories.js";
+import doctorsRepositories from "../repositories/doctorsRepositories.js";
+import specialitiesRepositories from "../repositories/specialitiesRepositories.js";
 
 import errors from "../errors/index.js";
 
-async function selectAll({ name, specialityName }: SelectAllType) {
+async function selectAll({ name, specialityName }: SelectAllDoctorsType) {
 
     const { rows: doctors } = await doctorsRepositories.selectAll({ name, specialityName });
 

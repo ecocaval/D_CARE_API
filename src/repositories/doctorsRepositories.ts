@@ -1,9 +1,9 @@
-import { CreateType, SelectAllType } from "./@types/index.js";
+import { CreateDoctorType, SelectAllDoctorsType } from "../@types/doctors";
 
-import dataBase from "../../configs/dataBase.js";
+import dataBase from "../configs/dataBase.js";
 
 async function selectAll(
-    { name, specialityName }: SelectAllType
+    { name, specialityName }: SelectAllDoctorsType
 ) {
     return await dataBase.query(`
         SELECT 
@@ -36,7 +36,7 @@ async function selectByCrm(crm: string) {
 }
 
 async function create(
-    { specialityName, crm, crmOptionals, loginId }: CreateType
+    { specialityName, crm, crmOptionals, loginId }: CreateDoctorType
 ) {
     return await dataBase.query(`
         INSERT INTO doctors ("specialityName", crm, "crmOptionals", "loginId")

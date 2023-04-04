@@ -1,10 +1,10 @@
+import { NextFunction, Request, Response } from "express";
 import jwt, { GetPublicKeyOrSecret, Jwt, Secret } from "jsonwebtoken";
 
-import doctorsRepositories from "../repositories/doctorsRepositories/index.js";
-import patientsRepositories from "../repositories/patientsRepositories/index.js";
+import doctorsRepositories from "../repositories/doctorsRepositories.js";
+import patientsRepositories from "../repositories/patientsRepositories.js";
 
 import errors from "../errors/index.js";
-import { NextFunction, Request, Response } from "express";
 
 interface newJwt extends Jwt {
     userId: String,

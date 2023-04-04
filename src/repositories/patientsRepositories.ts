@@ -1,6 +1,6 @@
-import dataBase from "../../configs/dataBase.js";
+import { CreatePatientType } from "../@types/patients.js";
 
-import { CreateType } from "./@types/index.js";
+import dataBase from "../configs/dataBase.js";
 
 async function selectByLoginId(id: string) {
     return await dataBase.query(`
@@ -18,7 +18,7 @@ async function selectByCpf(cpf: string) {
     `, [cpf]);
 }
 
-async function create({ cpf, loginId }: CreateType) {
+async function create({ cpf, loginId }: CreatePatientType) {
     return await dataBase.query(`
         INSERT INTO patients (cpf, "loginId")
         VALUES ($1, $2);

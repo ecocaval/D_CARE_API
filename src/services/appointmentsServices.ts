@@ -1,17 +1,18 @@
 import {
-    BookType,
-    ConfirmType,
-    SelectAllType,
+    BookAppointmentType,
+    CancelAppointmentType,
+    ConfirmAppointmentType,
+    CreateAppointmentType,
+    SelectAllAppointmentsType,
     SelectDoctorAppointmentsType,
-    SelectPatientAppointmentsType,
-    SelectType
-} from '../repositories/appointmentsRepositories/@types/index.js';
+    SelectPatientAppointmentsType
+} from '../@types/appointments.js';
 
-import appointmentsRepositories from '../repositories/appointmentsRepositories/index.js';
+import appointmentsRepositories from '../repositories/appointmentsRepositories.js';
 
 import errors from '../errors/index.js';
 
-async function selectAll({ doctorName, date, hour, status, specialityName }: SelectAllType) {
+async function selectAll({ doctorName, date, hour, status, specialityName }: SelectAllAppointmentsType) {
 
     const { rows: appointments } = await appointmentsRepositories.selectAll({ doctorName, date, hour, status, specialityName });
 
@@ -32,7 +33,7 @@ async function selectDoctorAppointments({ doctorId, status }: SelectDoctorAppoin
     return appointments;
 }
 
-async function create({ date, hour, doctorId }: SelectType) {
+async function create({ date, hour, doctorId }: CreateAppointmentType) {
 
     const { rowCount: conflictInAppointment } = await appointmentsRepositories.select({ date, hour, doctorId });
     if (!!conflictInAppointment) throw errors.duplicatedAppointmentError();
@@ -40,7 +41,7 @@ async function create({ date, hour, doctorId }: SelectType) {
     await appointmentsRepositories.create({ date, hour, doctorId });
 }
 
-async function book({ patientId, appointmentId }: BookType) {
+async function book({ appointmentId, patientId }: BookAppointmentType) {
 
     const {
         rows: [appointment],
@@ -53,7 +54,7 @@ async function book({ patientId, appointmentId }: BookType) {
     await appointmentsRepositories.book({ patientId, appointmentId });
 }
 
-async function confirm({ appointmentId, doctorId }: ConfirmType) {
+async function confirm({ appointmentId, doctorId }: ConfirmAppointmentType) {
     const {
         rows: [appointment],
         rowCount: appointmentExists
@@ -77,7 +78,7 @@ async function confirm({ appointmentId, doctorId }: ConfirmType) {
     await appointmentsRepositories.confirm({ appointmentId });
 }
 
-async function cancel({ appointmentId, doctorId }: ConfirmType) {
+async function cancel({ appointmentId, doctorId }: CancelAppointmentType) {
     const {
         rows: [appointment],
         rowCount: appointmentExists
