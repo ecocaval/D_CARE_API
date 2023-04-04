@@ -1,7 +1,5 @@
 import { CreateDoctorType, DoctorsPromiseType, DoctorsWithLoginPromiseType, SelectAllDoctorsType } from "../@types/doctors";
 
-import { QueryResult } from "pg";
-
 import dataBase from "../configs/dataBase.js";
 
 async function selectAll(
