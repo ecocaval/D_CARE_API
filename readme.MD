@@ -2,8 +2,6 @@
 
 <p align = "center"><img style="width:800px" src="./assets/read-me-pic.png"/></p>
 
-<br>
-
 ## :white_circle: Technologies
 
 - [bcrypt](https://www.npmjs.com/package/bcrypt)
@@ -16,8 +14,6 @@
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - [pg](https://node-postgres.com/)
 - [string-strip-html](https://www.npmjs.com/package/string-strip-html)
-
-<br>
 
 # 🏁 Let's go!
 
