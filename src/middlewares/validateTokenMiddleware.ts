@@ -52,7 +52,7 @@ async function validateTokenMiddleware(
 
         next();
     } catch (error) {
-        next(error);
+        next(errors.unauthorizedError());
     }
 }
 

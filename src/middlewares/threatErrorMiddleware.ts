@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import httpStatus from 'http-status';
 
-function threatErrorMiddleware(err: Error, req: Request, res: Response) {
+function threatErrorMiddleware(err: Error, req: Request, res: Response, next: NextFunction) {
 
     const conflictErrors = [
         'conflictError',
