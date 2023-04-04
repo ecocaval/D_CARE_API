@@ -1,6 +1,7 @@
+import { QueryResult } from "pg";
 import { QueryType } from "./query";
 
-export type AppointmentType = {
+type AppointmentType = {
     id: number;
     date: string;
     doctorId: number;
@@ -10,6 +11,8 @@ export type AppointmentType = {
     doctorName: string;
     speciality: string;
 }
+
+export type AppointmentsPromiseType = Promise<QueryResult<AppointmentType>>
 
 export type SelectAllAppointmentsType = {
     doctorName?: QueryType;

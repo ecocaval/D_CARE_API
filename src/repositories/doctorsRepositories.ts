@@ -1,4 +1,6 @@
-import { CreateDoctorType, SelectAllDoctorsType } from "../@types/doctors";
+import { CreateDoctorType, DoctorsPromiseType, DoctorsWithLoginPromiseType, SelectAllDoctorsType } from "../@types/doctors";
+
+import { QueryResult } from "pg";
 
 import dataBase from "../configs/dataBase.js";
 
@@ -16,15 +18,17 @@ async function selectAll(
             (l.name = $1 OR $1 IS NULL) AND 
             (d."specialityName" = $2 OR $2 IS NULL)
         ORDER BY d.id DESC;
-    `, [name, specialityName]);
+    `, [name, specialityName]) as DoctorsWithLoginPromiseType;
 }
+
+
 
 async function selectByLoginId(id: string) {
     return dataBase.query(`
         SELECT * 
         FROM doctors
         WHERE "loginId" = $1; 
-    `, [id]);
+    `, [id]) as DoctorsPromiseType;
 }
 
 async function selectByCrm(crm: string) {
@@ -32,7 +36,7 @@ async function selectByCrm(crm: string) {
         SELECT * 
         FROM doctors
         WHERE crm = $1; 
-    `, [crm]);
+    `, [crm]) as DoctorsPromiseType;
 }
 
 async function create(
