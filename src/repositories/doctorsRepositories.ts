@@ -5,7 +5,7 @@ import dataBase from "../configs/dataBase.js";
 async function selectAll(
     { name, specialityName }: SelectAllDoctorsType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT 
             l.name, l.email, l.type,  
             d."specialityName", d.crm, d."crmOptionals" 
@@ -20,7 +20,7 @@ async function selectAll(
 }
 
 async function selectByLoginId(id: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT * 
         FROM doctors
         WHERE "loginId" = $1; 
@@ -28,7 +28,7 @@ async function selectByLoginId(id: string) {
 }
 
 async function selectByCrm(crm: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT * 
         FROM doctors
         WHERE crm = $1; 
@@ -38,7 +38,7 @@ async function selectByCrm(crm: string) {
 async function create(
     { specialityName, crm, crmOptionals, loginId }: CreateDoctorType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         INSERT INTO doctors ("specialityName", crm, "crmOptionals", "loginId")
         VALUES ($1, $2, $3, $4);
     `, [specialityName, crm, crmOptionals, loginId]);

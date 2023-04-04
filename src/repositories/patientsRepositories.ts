@@ -3,7 +3,7 @@ import { CreatePatientType } from "../@types/patients.js";
 import dataBase from "../configs/dataBase.js";
 
 async function selectByLoginId(id: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT * 
         FROM patients
         WHERE "loginId" = $1; 
@@ -11,7 +11,7 @@ async function selectByLoginId(id: string) {
 }
 
 async function selectByCpf(cpf: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT * 
         FROM patients
         WHERE cpf = $1; 
@@ -19,7 +19,7 @@ async function selectByCpf(cpf: string) {
 }
 
 async function create({ cpf, loginId }: CreatePatientType) {
-    return await dataBase.query(`
+    return dataBase.query(`
         INSERT INTO patients (cpf, "loginId")
         VALUES ($1, $2);
     `, [cpf, loginId]);

@@ -3,7 +3,7 @@ import { CreateLoginType } from "../@types/logins.js";
 import dataBase from "../configs/dataBase.js";
 
 async function selectByEmail(email: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT * 
         FROM logins
         WHERE email = $1; 
@@ -11,7 +11,7 @@ async function selectByEmail(email: string) {
 }
 
 async function create({ name, email, password, type }: CreateLoginType) {
-    return await dataBase.query(`
+    return dataBase.query(`
         INSERT INTO logins (name, email, password, type)
         VALUES ($1, $2, $3, $4)
         RETURNING id;

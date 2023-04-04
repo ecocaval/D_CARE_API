@@ -1,7 +1,7 @@
 import dataBase from "../configs/dataBase.js";
 
 async function selectByName(specialityName: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT *
         FROM specialities
         WHERE name = $1;
@@ -9,7 +9,7 @@ async function selectByName(specialityName: string) {
 }
 
 async function create(specialityName: string) {
-    return await dataBase.query(`
+    return dataBase.query(`
         INSERT INTO specialities (name)
         VALUES ($1);
     `, [specialityName]);

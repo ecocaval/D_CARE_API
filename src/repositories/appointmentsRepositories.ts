@@ -13,7 +13,7 @@ import dataBase from "../configs/dataBase.js";
 async function selectAll(
     { doctorName, date, hour, status, specialityName }: SelectAllAppointmentsType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT 
             a.*,    
             l.name as "doctorName",
@@ -37,7 +37,7 @@ async function selectAll(
 async function selectPatientAppointments(
     { patientId, status }: SelectPatientAppointmentsType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT 
             a.*,    
             l.name as "doctorName",
@@ -57,7 +57,7 @@ async function selectPatientAppointments(
 async function selectDoctorAppointments(
     { doctorId, status }: SelectDoctorAppointmentsType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT 
             a.*,    
             l.name as "doctorName",
@@ -77,7 +77,7 @@ async function selectDoctorAppointments(
 async function select(
     { date, hour, doctorId }: SelectAppointmentType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT *
         FROM appointments 
         WHERE date = $1 AND hour = $2 AND "doctorId" = $3 AND status <> 'canceled';
@@ -87,7 +87,7 @@ async function select(
 async function selectById(
     { appointmentId }: SelectAppointmentByIdType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         SELECT *
         FROM appointments 
         WHERE id = $1;
@@ -97,7 +97,7 @@ async function selectById(
 async function create(
     { date, hour, doctorId }: CreateAppointmentType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
         VALUES ($1, $2, $3);
     `, [date, hour, doctorId]);
@@ -106,7 +106,7 @@ async function create(
 async function book(
     { patientId, appointmentId }: BookAppointmentType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         UPDATE appointments
         SET "patientId" = $1, status = 'booked'
         WHERE id = $2;
@@ -116,7 +116,7 @@ async function book(
 async function confirm(
     { appointmentId }: SelectAppointmentByIdType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         UPDATE appointments
         SET status = 'confirmed'
         WHERE id = $1;
@@ -126,7 +126,7 @@ async function confirm(
 async function cancel(
     { appointmentId }: SelectAppointmentByIdType
 ) {
-    return await dataBase.query(`
+    return dataBase.query(`
         UPDATE appointments
         SET status = 'canceled'
         WHERE id = $1;
