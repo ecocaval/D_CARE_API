@@ -1,15 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { GetPublicKeyOrSecret, Jwt, Secret } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import doctorsRepositories from "../repositories/doctorsRepositories.js";
 import patientsRepositories from "../repositories/patientsRepositories.js";
 
 import errors from "../errors/index.js";
-
-interface newJwt extends Jwt {
-    userId: String,
-    type: 'doctor' | 'patient'
-}
 
 async function validateTokenMiddleware(
     req: Request,
@@ -33,8 +28,8 @@ async function validateTokenMiddleware(
 
         const { userId: id, type } = jwt.verify(
             token,
-            process.env.JWT_PRIVATE_KEY as Secret | GetPublicKeyOrSecret
-        ) as unknown as newJwt;
+            process.env.JWT_PRIVATE_KEY as jwt.Secret | jwt.GetPublicKeyOrSecret
+        ) as unknown as jwt.JwtPayload;
 
         if (optionalTypeRestriction && (optionalTypeRestriction !== type)) {
             throw errors.unauthorizedError();
