@@ -17,7 +17,7 @@
 
 # 🏁 Let's go!
 
-This project is an idea of a simple API whose purpose is to enable doctors and patients to interact through medical appointments. Doctors can create appointments, and patients can book them, including the ability to confirm and cancel. Patients can list all available (or unavailable) appointments and filter them by the doctor's specialization, date, hour, and even the doctor themselves. The stack primarily consists of TypeScript and Express for the back-end, and the data base was made using PostgreSQL. All the other technologies used in this project are listed above.  
+This project is an idea of a simple API whose purpose is to enable doctors and patients to interact through medical appointments. Doctors can create appointments and patients can book, confirm and cancel them. Patients also can list all available (or unavailable) appointments, and filter these appointments by the doctor's specialization, date, hour, and even the doctor themselves. The stack of the project primarily consists of TypeScript and Express for the back-end, and the data base was made using PostgreSQL. All the other technologies used in this project are listed and referenced above.  
 
 ```bash
 git clone https://github.com/ecocaval/TypeMediCareAPI.git && cd TypeMediCareAPI
@@ -26,7 +26,7 @@ git clone https://github.com/ecocaval/TypeMediCareAPI.git && cd TypeMediCareAPI
 Then you must install all the dependencies running:
 
 ```bash
-npx install
+npm install
 ```
 
 If you want to use and test the api you will have to recriate the database considering the tables that are showen in the database modeling, feel free to add improvements given the basis. To connect to the database create a .env file and populate it given the .env.example file:
