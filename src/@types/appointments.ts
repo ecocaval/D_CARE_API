@@ -35,5 +35,8 @@ export type SelectAppointmentByIdType = {
 
 export interface SelectAppointmentType extends CreateAppointmentType { }
 
-export interface ConfirmAppointmentType extends SelectAppointmentByIdType { }
-export interface CancelAppointmentType extends SelectAppointmentByIdType { }
+export interface ConfirmAppointmentType extends SelectAppointmentByIdType {
+    doctorId: string;
+}
+
+export interface CancelAppointmentType extends ConfirmAppointmentType { }

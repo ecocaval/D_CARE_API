@@ -1,5 +1,5 @@
-import { SignInType, SignUpDoctorType } from './@types/index.js';
 import { SelectAllDoctorsType } from '../@types/doctors.js';
+import { SignInType, SignUpDoctorType } from '../@types/logins.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

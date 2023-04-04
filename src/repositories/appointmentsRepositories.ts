@@ -1,7 +1,5 @@
 import {
     BookAppointmentType,
-    CancelAppointmentType,
-    ConfirmAppointmentType,
     CreateAppointmentType,
     SelectAllAppointmentsType,
     SelectAppointmentByIdType,
@@ -116,7 +114,7 @@ async function book(
 }
 
 async function confirm(
-    { appointmentId }: ConfirmAppointmentType
+    { appointmentId }: SelectAppointmentByIdType
 ) {
     return await dataBase.query(`
         UPDATE appointments
@@ -126,7 +124,7 @@ async function confirm(
 }
 
 async function cancel(
-    { appointmentId }: CancelAppointmentType
+    { appointmentId }: SelectAppointmentByIdType
 ) {
     return await dataBase.query(`
         UPDATE appointments
