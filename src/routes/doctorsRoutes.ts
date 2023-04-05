@@ -6,12 +6,11 @@ import doctorsControllers from "../controllers/doctorsControllers.js";
 
 const doctorsRoutes = Router();
 
-doctorsRoutes.get(
-    '/',
-    (req: Request, res: Response, next: NextFunction) => {
+doctorsRoutes
+    .use('/', (req: Request, res: Response, next: NextFunction) => {
         validateTokenMiddleware(req, res, next, 'patient')
-    },
-    doctorsControllers.selectAll
-);
+    })
+    
+    .get('/', doctorsControllers.selectAll)
 
 export default doctorsRoutes;

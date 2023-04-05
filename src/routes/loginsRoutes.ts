@@ -8,16 +8,9 @@ import loginsSchemas from "../schemas/loginsSchemas.js";
 
 const loginsRoutes = Router();
 
-loginsRoutes.post(
-    '/sign-in',
-    validateSchemaMiddleware(loginsSchemas.signIn),
-    loginControllers.signIn
-);
+loginsRoutes
+    .post('/sign-in', validateSchemaMiddleware(loginsSchemas.signIn), loginControllers.signIn)
 
-loginsRoutes.post(
-    '/sign-up',
-    validateSchemaMiddleware(loginsSchemas.signUp),
-    loginControllers.signUp
-);
+    .post('/sign-up', validateSchemaMiddleware(loginsSchemas.signUp), loginControllers.signUp)
 
 export default loginsRoutes;
