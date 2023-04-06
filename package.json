@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "ts-start": "npx nodemon src/app.ts"
+    "ts-start": "tsx watch src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +33,7 @@
     "@types/qs": "^6.9.7",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
+    "tsx": "^3.12.6",
     "typescript": "^5.0.3"
   }
 }
