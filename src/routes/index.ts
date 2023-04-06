@@ -4,19 +4,17 @@ import sanitizeBodyMiddleware from "../middlewares/sanitizeBodyMiddleware.js";
 
 import loginsRoutes from "./loginsRoutes.js";
 import doctorsRoutes from "./doctorsRoutes.js";
-import patientsAppointmentsRoutes from "./patientsAppointmentsRoutes.js";
-import doctorsAppointmentsRoutes from "./doctorsAppointmentsRoutes.js";
+import patientsRoutes from "./patientsRoutes.js";
 
 const routes = Router();
 
-routes.use(sanitizeBodyMiddleware);
+routes
+    .use(sanitizeBodyMiddleware)
 
-routes.use('/login', loginsRoutes);
+    .use('/login', loginsRoutes)
 
-routes.use('/doctors', doctorsRoutes);
+    .use('/doctors', doctorsRoutes)
 
-routes.use('/appointments', patientsAppointmentsRoutes);
-
-routes.use('/appointments', doctorsAppointmentsRoutes);
+    .use('/patients', patientsRoutes);
 
 export default routes;

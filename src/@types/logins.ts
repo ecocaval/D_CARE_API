@@ -1,42 +1,24 @@
 import { QueryResult } from "pg";
 
+import { DoctorWithLoginType } from "./doctors";
+
 type LoginType = {
     id: number;
     name: string;
     email: string;
     password: string;
-    type: string;
+    type: 'patient' | 'doctor';
     createdAt: string;
 };
 
 export type LoginsPromiseType = Promise<QueryResult<LoginType>>;
 
-export type SignInType = {
-    email: string,
-    password: string,
-    type: 'patient' | 'doctor'
-}
+export type SignInType = Pick<LoginType, "email" | "password" | "type">;
 
-export interface CreateLoginType extends SignInType {
-    name: string
-}
+export type CreateLoginType = Omit<LoginType, "id" | "createdAt">;
 
-export interface SignUpDefault extends SignInType {
-    name?: string,
-    specialityName?: string,
-    crm?: string, 
-    crmOptionals?: string | null | undefined,
-    cpf?: string,
-}
+export type SignUpDefault = SignInType & Partial<Omit<DoctorWithLoginType, "email" | "type">> & { cpf?: string };
 
-export interface SignUpPatientType extends SignInType {
-    name: string,
-    cpf: string,
-}
+export type SignUpPatientType = SignInType & Pick<DoctorWithLoginType, "name"> & { cpf: string };
 
-export interface SignUpDoctorType extends SignInType {
-    name: string,
-    specialityName: string,
-    crm: string, 
-    crmOptionals: string | null | undefined,
-}
+export type SignUpDoctorType = SignInType & Omit<DoctorWithLoginType, "email" | "type" | "crmOptionals"> & { crmOptionals: string | null | undefined };

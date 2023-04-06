@@ -11,7 +11,7 @@ type DoctorType = {
     loginId: number;
 };
 
-type DoctorWithLoginType = {
+export type DoctorWithLoginType = {
     name: string;
     email: string;
     type: string;
@@ -24,14 +24,8 @@ export type DoctorsPromiseType = Promise<QueryResult<DoctorType>>;
 
 export type DoctorsWithLoginPromiseType = Promise<QueryResult<DoctorWithLoginType>>;
 
-export type SelectAllDoctorsType = {
-    name?: QueryType;
-    specialityName?: QueryType;
-};
+export type SelectAllDoctorsType = Partial<Record<keyof Pick<DoctorWithLoginType, "name" | "specialityName">, QueryType>>;
 
-export type CreateDoctorType = {
-    specialityName?: QueryType;
-    crm?: QueryType;
-    crmOptionals?: QueryType | null;
-    loginId?: QueryType;
+export type CreateDoctorType = Partial<Record<keyof Omit<DoctorType, "id" | "createdAt" | "crmOptionals">, QueryType>> & {
+    crmOptionals: string | null | undefined;
 };

@@ -1,19 +1,17 @@
 import {
     AppointmentsPromiseType,
     BookAppointmentType,
-    CreateAppointmentType,
     SelectAllAppointmentsType,
     SelectAppointmentByIdType,
-    SelectAppointmentType,
+    SelectAndCreateAppointmentType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
 } from "../@types/appointments.js";
 
 import dataBase from "../configs/dataBase.js";
 
-async function selectAll(
-    { doctorName, date, hour, status, specialityName }: SelectAllAppointmentsType
-) {
+async function selectAll({ doctorName, date, hour, status, specialityName }: SelectAllAppointmentsType) {
+
     return dataBase.query(`
         SELECT 
             a.*,    
@@ -35,9 +33,8 @@ async function selectAll(
     `, [doctorName, date, hour, status, specialityName]) as AppointmentsPromiseType;
 }
 
-async function selectPatientAppointments(
-    { patientId, status }: SelectPatientAppointmentsType
-) {
+async function selectPatientAppointments({ patientId, status }: SelectPatientAppointmentsType) {
+
     return dataBase.query(`
         SELECT 
             a.*,    
@@ -55,9 +52,8 @@ async function selectPatientAppointments(
     `, [patientId, status]) as AppointmentsPromiseType;
 }
 
-async function selectDoctorAppointments(
-    { doctorId, status }: SelectDoctorAppointmentsType
-) {
+async function selectDoctorAppointments({ doctorId, status }: SelectDoctorAppointmentsType) {
+
     return dataBase.query(`
         SELECT 
             a.*,    
@@ -75,9 +71,8 @@ async function selectDoctorAppointments(
     `, [doctorId, status]) as AppointmentsPromiseType;
 }
 
-async function select(
-    { date, hour, doctorId }: SelectAppointmentType
-) {
+async function select(    { date, hour, doctorId }: SelectAndCreateAppointmentType) {
+
     return dataBase.query(`
         SELECT *
         FROM appointments 
@@ -85,9 +80,8 @@ async function select(
     `, [date, hour, doctorId]) as AppointmentsPromiseType;
 }
 
-async function selectById(
-    { appointmentId }: SelectAppointmentByIdType
-) {
+async function selectById(    { appointmentId }: SelectAppointmentByIdType) {
+
     return dataBase.query(`
         SELECT *
         FROM appointments 
@@ -95,18 +89,16 @@ async function selectById(
     `, [appointmentId]) as AppointmentsPromiseType;
 }
 
-async function create(
-    { date, hour, doctorId }: CreateAppointmentType
-) {
+async function create(    { date, hour, doctorId }: SelectAndCreateAppointmentType) {
+
     return dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
         VALUES ($1, $2, $3);
     `, [date, hour, doctorId]);
 }
 
-async function book(
-    { patientId, appointmentId }: BookAppointmentType
-) {
+async function book(    { patientId, appointmentId }: BookAppointmentType) {
+
     return dataBase.query(`
         UPDATE appointments
         SET "patientId" = $1, status = 'booked'
@@ -114,9 +106,8 @@ async function book(
 `, [patientId, appointmentId]);
 }
 
-async function confirm(
-    { appointmentId }: SelectAppointmentByIdType
-) {
+async function confirm(    { appointmentId }: SelectAppointmentByIdType) {
+
     return dataBase.query(`
         UPDATE appointments
         SET status = 'confirmed'
@@ -124,9 +115,8 @@ async function confirm(
 `, [appointmentId]);
 }
 
-async function cancel(
-    { appointmentId }: SelectAppointmentByIdType
-) {
+async function cancel(    { appointmentId }: SelectAppointmentByIdType) {
+    
     return dataBase.query(`
         UPDATE appointments
         SET status = 'canceled'

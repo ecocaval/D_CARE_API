@@ -8,7 +8,9 @@ import patientsServices from "../services/patientsServices.js";
 
 async function signIn(req: Request, res: Response, next: NextFunction) {
     const { email, password, type } = req.body as SignInType;
+
     let token: string | undefined;
+
     try {
         if (type === 'doctor')
             token = await doctorsServices.signIn({ email, password, type });
@@ -16,7 +18,10 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
         if (type === 'patient')
             token = await patientsServices.signIn({ email, password, type });
 
-        return res.status(httpStatus.OK).json({ data: token });
+        return res.status(httpStatus.OK).json({
+            data: token
+        });
+
     } catch (error) {
         next(error);
     }
@@ -24,6 +29,7 @@ async function signIn(req: Request, res: Response, next: NextFunction) {
 
 async function signUp(req: Request, res: Response, next: NextFunction) {
     const { name, email, password, type, specialityName, crm, crmOptionals, cpf } = req.body as SignUpDefault;
+    
     try {
         if (type === 'doctor')
             await doctorsServices.signUp(

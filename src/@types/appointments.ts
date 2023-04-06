@@ -3,54 +3,28 @@ import { QueryType } from "./query";
 
 type AppointmentType = {
     id: number;
-    date: string;
     doctorId: number;
     patientId: number | null;
+    doctorName: string;
+    date: string;
     hour: string;
     status: "free" | "booked" | "confirmed" | "canceled";
-    doctorName: string;
-    speciality: string;
+    specialityName: string;
 }
 
 export type AppointmentsPromiseType = Promise<QueryResult<AppointmentType>>;
 
-export type SelectAllAppointmentsType = {
-    doctorName?: QueryType;
-    date?: QueryType;
-    hour?: QueryType;
-    status?: QueryType;
-    specialityName?: QueryType;
-};
+export type SelectAllAppointmentsType = Partial<Record<keyof Omit<AppointmentType, "id" | "doctorId" | "patientId">, QueryType>>;
 
-export type SelectPatientAppointmentsType = {
-    patientId: string;
-    status?: QueryType;
-};
+export type SelectPatientAppointmentsType = Pick<SelectAllAppointmentsType, "status"> & { patientId: string; };
 
-export type SelectDoctorAppointmentsType = {
-    doctorId: string;
-    status?: QueryType;
-};
+export type SelectDoctorAppointmentsType = Pick<SelectAllAppointmentsType, "status"> & { doctorId: string; };
 
-export type CreateAppointmentType = {
-    date: string;
-    hour: string;
-    doctorId: string;
-};
+export type SelectAndCreateAppointmentType = Pick<AppointmentType, "date" | "hour"> & { doctorId: string; };
 
-export type BookAppointmentType = {
-    patientId: string;
-    appointmentId: string;
-};
+export type SelectAppointmentByIdType = { appointmentId: string; };
 
-export type SelectAppointmentByIdType = {
-    appointmentId: string
-}
+export type BookAppointmentType = SelectAppointmentByIdType & { patientId: string; };
 
-export interface SelectAppointmentType extends CreateAppointmentType { }
+export type ConfirmAndCancelAppointmentType = SelectAppointmentByIdType & { doctorId: string; };
 
-export interface ConfirmAppointmentType extends SelectAppointmentByIdType {
-    doctorId: string;
-}
-
-export interface CancelAppointmentType extends ConfirmAppointmentType { }

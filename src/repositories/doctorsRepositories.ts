@@ -2,9 +2,8 @@ import { CreateDoctorType, DoctorsPromiseType, DoctorsWithLoginPromiseType, Sele
 
 import dataBase from "../configs/dataBase.js";
 
-async function selectAll(
-    { name, specialityName }: SelectAllDoctorsType
-) {
+async function selectAll({ name, specialityName }: SelectAllDoctorsType) {
+
     return dataBase.query(`
         SELECT 
             l.name, l.email, l.type,  
@@ -20,6 +19,7 @@ async function selectAll(
 }
 
 async function selectByLoginId(id: string) {
+
     return dataBase.query(`
         SELECT * 
         FROM doctors
@@ -28,6 +28,7 @@ async function selectByLoginId(id: string) {
 }
 
 async function selectByCrm(crm: string) {
+
     return dataBase.query(`
         SELECT * 
         FROM doctors
@@ -35,9 +36,8 @@ async function selectByCrm(crm: string) {
     `, [crm]) as DoctorsPromiseType;
 }
 
-async function create(
-    { specialityName, crm, crmOptionals, loginId }: CreateDoctorType
-) {
+async function create({ specialityName, crm, crmOptionals, loginId }: CreateDoctorType) {
+
     return dataBase.query(`
         INSERT INTO doctors ("specialityName", crm, "crmOptionals", "loginId")
         VALUES ($1, $2, $3, $4);

@@ -1,11 +1,9 @@
 import {
-    CreateAppointmentType,
+    SelectAndCreateAppointmentType,
     SelectAllAppointmentsType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
 } from "../@types/appointments.js";
-
-import { ResponseLocalsType } from "../@types/response.js";
 
 import {
     NextFunction,
@@ -17,54 +15,68 @@ import httpStatus from "http-status";
 
 import appointmentsServices from "../services/appointmentsServices.js";
 
+type ResponseLocalsType = { 
+    id: string 
+};
+
 async function selectAll(req: Request, res: Response, next: NextFunction) {
-    const { doctorName, date, hour, status, specialityName } = req.query as SelectAllAppointmentsType
+    const { doctorName, date, hour, status, specialityName } = req.query as SelectAllAppointmentsType;
+
     try {
         const appointments = await appointmentsServices.selectAll(
             { doctorName, date, hour, status, specialityName }
-        )
+        );
 
         return res.status(httpStatus.OK).json({
             data: appointments
-        })
+        });
+
     } catch (error) {
         next(error);
     }
 }
 
 async function selectPatientAppointments(req: Request, res: Response, next: NextFunction) {
-    const { id: patientId } = res?.locals?.user as ResponseLocalsType
-    const { status } = req.query as SelectPatientAppointmentsType
+    const { id: patientId } = res?.locals?.user as ResponseLocalsType;
+
+    const { status } = req.query as SelectPatientAppointmentsType;
+
     try {
-        const appointments = await appointmentsServices.selectPatientAppointments({ patientId, status })
+        const appointments = await appointmentsServices.selectPatientAppointments({ patientId, status });
 
         return res.status(httpStatus.OK).json({
             data: appointments
-        })
+        });
+
     } catch (error) {
         next(error);
     }
 }
 
 async function selectDoctorAppointments(req: Request, res: Response, next: NextFunction) {
-    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
-    const { status } = req.query as SelectDoctorAppointmentsType
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType;
+
+    const { status } = req.query as SelectDoctorAppointmentsType;
+
     try {
-        const appointments = await appointmentsServices.selectDoctorAppointments({ doctorId, status })
+        const appointments = await appointmentsServices.selectDoctorAppointments({ doctorId, status });
         
         return res.status(httpStatus.OK).json({
             data: appointments
-        })
+        });
+
     } catch (error) {
         next(error);
     }
 }
 
 async function create(req: Request, res: Response, next: NextFunction) {
-    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
-    const { date, hour } = req.body as CreateAppointmentType;
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType;
+
+    const { date, hour } = req.body as SelectAndCreateAppointmentType;
+
     try {
-        await appointmentsServices.create({ date, hour, doctorId })
+        await appointmentsServices.create({ date, hour, doctorId });
 
         return res.sendStatus(httpStatus.CREATED);
     } catch (error) {
@@ -73,10 +85,12 @@ async function create(req: Request, res: Response, next: NextFunction) {
 }
 
 async function book(req: Request, res: Response, next: NextFunction) {
-    const { id: patientId } = res?.locals?.user as ResponseLocalsType
-    const { appointmentId } = req?.params
+    const { id: patientId } = res?.locals?.user as ResponseLocalsType;
+
+    const { appointmentId } = req?.params;
+
     try {
-        await appointmentsServices.book({ patientId, appointmentId })
+        await appointmentsServices.book({ patientId, appointmentId });
 
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
@@ -85,10 +99,12 @@ async function book(req: Request, res: Response, next: NextFunction) {
 }
 
 async function confirm(req: Request, res: Response, next: NextFunction) {
-    const { id: doctorId } = res?.locals.user as ResponseLocalsType
-    const { appointmentId } = req?.params
+    const { id: doctorId } = res?.locals.user as ResponseLocalsType;
+
+    const { appointmentId } = req?.params;
+
     try {
-        await appointmentsServices.confirm({ appointmentId, doctorId })
+        await appointmentsServices.confirm({ appointmentId, doctorId });
 
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
@@ -97,10 +113,12 @@ async function confirm(req: Request, res: Response, next: NextFunction) {
 }
 
 async function cancel(req: Request, res: Response, next: NextFunction) {
-    const { id: doctorId } = res?.locals?.user as ResponseLocalsType
-    const { appointmentId } = req?.params
+    const { id: doctorId } = res?.locals?.user as ResponseLocalsType;
+
+    const { appointmentId } = req?.params;
+
     try {
-        await appointmentsServices.cancel({ appointmentId, doctorId })
+        await appointmentsServices.cancel({ appointmentId, doctorId });
         
         return res.sendStatus(httpStatus.OK);
     } catch (error) {
