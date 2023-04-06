@@ -140,3 +140,9 @@ And finally, run:
 ```bash
 npm run dev
 ```
+
+or:
+
+```bash
+npm run build && npm start
+```
