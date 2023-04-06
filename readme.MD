@@ -138,5 +138,5 @@ JWT_PRIVATE_KEY=    //the key used in jwt.sign and jwt.verify
 And finally, run:
 
 ```bash
-npm run ts-start
+npm run dev
 ```
