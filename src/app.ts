@@ -10,12 +10,15 @@ import threatErrorMiddleware from './middlewares/threatErrorMiddleware.js';
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app
+  .use(cors())
 
-app.use(routes);
-app.use(threatErrorMiddleware);
+  .use(express.json())
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log('listening to port ' + (process.env.PORT || 5000));
-});
+  .use(routes)
+
+  .use(threatErrorMiddleware)
+
+  .listen(process.env.PORT || 5000, () => {
+      console.log('listening to port ' + (process.env.PORT || 5000));
+  });

@@ -3,7 +3,7 @@ import { stripHtml } from 'string-strip-html';
 
 function sanitizeBodyMiddleware(req: Request, res: Response, next: NextFunction) {
     if(req.body) {
-        cleanObj(req.body)
+        cleanObj(req.body);
     }
     next();
 }

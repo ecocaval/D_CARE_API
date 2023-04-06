@@ -49,11 +49,15 @@ async function signUp({ name, email, password, type, specialityName, crm, crmOpt
     const { rowCount: specialityExists } = await specialitiesRepositories.selectByName(specialityName);
 
     if (!!specialityExists) {
+
         await doctorsRepositories.create({
             specialityName, crm, crmOptionals, loginId
         });
+
     } else {
+        
         await specialitiesRepositories.create(specialityName);
+
         await doctorsRepositories.create({
             specialityName, crm, crmOptionals, loginId
         });

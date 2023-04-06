@@ -1,8 +1,7 @@
 import {
     BookAppointmentType,
-    CancelAppointmentType,
-    ConfirmAppointmentType,
-    CreateAppointmentType,
+    ConfirmAndCancelAppointmentType,
+    SelectAndCreateAppointmentType,
     SelectAllAppointmentsType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
@@ -33,7 +32,7 @@ async function selectDoctorAppointments({ doctorId, status }: SelectDoctorAppoin
     return appointments;
 }
 
-async function create({ date, hour, doctorId }: CreateAppointmentType) {
+async function create({ date, hour, doctorId }: SelectAndCreateAppointmentType) {
 
     const { rowCount: conflictInAppointment } = await appointmentsRepositories.select({ date, hour, doctorId });
     if (!!conflictInAppointment) throw errors.duplicatedAppointmentError();
@@ -54,45 +53,47 @@ async function book({ appointmentId, patientId }: BookAppointmentType) {
     await appointmentsRepositories.book({ patientId, appointmentId });
 }
 
-async function confirm({ appointmentId, doctorId }: ConfirmAppointmentType) {
+async function confirm({ appointmentId, doctorId }: ConfirmAndCancelAppointmentType) {
+
     const {
         rows: [appointment],
         rowCount: appointmentExists
     } = await appointmentsRepositories.selectById({ appointmentId });
 
-    if (!appointmentExists) {
+    if (!appointmentExists)
         throw errors.appointmentNotFoundError();
-    };
-    if (appointment.status === 'confirmed') {
+
+    if (appointment.status === 'confirmed')
         throw errors.confirmedAppointmentError();
-    };
-    if (appointment.status === 'canceled') {
+
+    if (appointment.status === 'canceled')
         throw errors.canceledAppointmentError();
-    };
-    if (appointment.status === 'free') {
+
+    if (appointment.status === 'free')
         throw errors.freeAppointmentError();
-    };
-    if (appointment.doctorId !== +doctorId) {
+
+    if (appointment.doctorId !== +doctorId)
         throw errors.unauthorizedError();
-    };
+
     await appointmentsRepositories.confirm({ appointmentId });
 }
 
-async function cancel({ appointmentId, doctorId }: CancelAppointmentType) {
+async function cancel({ appointmentId, doctorId }: ConfirmAndCancelAppointmentType) {
+
     const {
         rows: [appointment],
         rowCount: appointmentExists
     } = await appointmentsRepositories.selectById({ appointmentId });
 
-    if (!appointmentExists) {
+    if (!appointmentExists)
         throw errors.appointmentNotFoundError();
-    };
-    if (appointment.status === 'canceled') {
+
+    if (appointment.status === 'canceled')
         throw errors.canceledAppointmentError();
-    };
-    if (appointment.doctorId !== +doctorId) {
+
+    if (appointment.doctorId !== +doctorId)
         throw errors.unauthorizedError();
-    };
+
     await appointmentsRepositories.cancel({ appointmentId });
 }
 

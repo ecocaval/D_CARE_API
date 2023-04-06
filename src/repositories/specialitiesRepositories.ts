@@ -3,6 +3,7 @@ import { SpecialitiesPromiseType } from "../@types/specialities.js";
 import dataBase from "../configs/dataBase.js";
 
 async function selectByName(specialityName: string) {
+
     return dataBase.query(`
         SELECT *
         FROM specialities
@@ -11,6 +12,7 @@ async function selectByName(specialityName: string) {
 }
 
 async function create(specialityName: string) {
+    
     return dataBase.query(`
         INSERT INTO specialities (name)
         VALUES ($1);
