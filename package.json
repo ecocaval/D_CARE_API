@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "ts-start": "npx nodemon src/app.ts"
   },
   "keywords": [],
   "author": "",
