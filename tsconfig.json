@@ -20,10 +20,11 @@
     "compilerOptions": {
         "outDir": "dist",
         "esModuleInterop": true,
-        "module": "es6",
+        "module": "CommonJS",
         "strict": true,
         "allowJs": false,
         "rootDir": "./src", 
+        "baseUrl": "src",
         "moduleResolution": "node",
         "lib": [
             "es2021"
