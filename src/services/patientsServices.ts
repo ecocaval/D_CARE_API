@@ -37,11 +37,11 @@ async function signUp({ name, email, password, type, cpf }: SignUpPatientType) {
         name, email, password: bcrypt.hashSync(password, 10), type
     });
 
-    await patientsRepositories.create({
+    const { rowCount: userWasCreated } = await patientsRepositories.create({
         cpf, loginId
     });
 
-    return;
+    return (!!userWasCreated);
 }
 
 export default {
