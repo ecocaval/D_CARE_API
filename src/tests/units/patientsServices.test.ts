@@ -140,4 +140,50 @@ describe('patientsServices unit tests', () => {
 
         expect(await patientsServices.signIn(userSignIn)).toBe(fakeToken);
     });
+
+    it('#5 should acuse unauthorized error in sign in when email is not found', () => {
+
+        expect(async () => {
+            jest
+                .spyOn(loginsRepositories, "selectByEmail")
+                .mockImplementationOnce((email): any => (
+                    Promise.resolve({
+                        rowCount: 0,
+                        rows: []
+                    })
+                ));
+
+            await patientsServices.signIn(userSignIn);
+        }).rejects.toEqual(errors.unauthorizedError());
+    });
+
+    it('#6 should acuse unauthorized error in sign in when password is not correct', () => {
+
+        expect(async () => {
+
+            const bcryptCompareSync = jest
+                .fn()
+                .mockImplementationOnce(() => false);
+    
+            jest
+                .spyOn(loginsRepositories, "selectByEmail")
+                .mockImplementationOnce((email): any => (
+                    Promise.resolve({
+                        rowCount: 1,
+                        rows: [{
+                            id: 1,
+                            name: 'foo',
+                            email: 'foo@bar.com',
+                            password: 'foobar123',
+                            type: 'patient',
+                            createdAt: 'foo'
+                        }]
+                    })
+                ));
+    
+            (bcrypt.compareSync as jest.Mock) = bcryptCompareSync;    
+
+            await patientsServices.signIn(userSignIn);
+        }).rejects.toEqual(errors.unauthorizedError());
+    });
 })
