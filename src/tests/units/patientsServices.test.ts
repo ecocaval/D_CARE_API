@@ -1,5 +1,7 @@
 import { jest } from "@jest/globals";
 
+import errors from "../../errors";
+
 import patientsServices from "../../services/patientsServices";
 
 import loginsRepositories from "../../repositories/loginsRepositories";
@@ -67,9 +69,29 @@ describe('patientsServices unit tests', () => {
                 ));
 
             await patientsServices.signUp(userSignUp);
-        }).rejects.toEqual({
-            name: 'duplicatedEmailError',
-            message: 'This email is already in use'
-        });
+        }).rejects.toEqual(errors.duplicatedEmailError());
+    });
+
+    it('#3 should acuse double cpf error in sign up', () => {
+
+        expect(async () => {
+            jest
+                .spyOn(loginsRepositories, "selectByEmail")
+                .mockImplementationOnce((email): any => (
+                    Promise.resolve({
+                        rowCount: 0
+                    })
+                ));
+
+            jest
+                .spyOn(patientsRepositories, "selectByCpf")
+                .mockImplementationOnce((cpf): any => (
+                    Promise.resolve({
+                        rowCount: 1
+                    })
+                ));
+
+            await patientsServices.signUp(userSignUp);
+        }).rejects.toEqual(errors.duplicatedCpfError());
     });
 })
