@@ -1,3 +1,8 @@
+import { SignInType, SignUpPatientType } from "../../@types/logins";
+
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 import { jest } from "@jest/globals";
 
 import errors from "../../errors";
@@ -7,12 +12,18 @@ import patientsServices from "../../services/patientsServices";
 import loginsRepositories from "../../repositories/loginsRepositories";
 import patientsRepositories from "../../repositories/patientsRepositories";
 
-const userSignUp: any = {
+const userSignUp: SignUpPatientType = {
     name: 'foo',
     email: 'foo@bar.com',
     password: 'foobar123',
     type: 'patient',
     cpf: '13113113113'
+};
+
+const userSignIn: SignInType = {
+    email: 'foo@bar.com',
+    password: 'foobar123',
+    type: 'patient'
 };
 
 describe('patientsServices unit tests', () => {
@@ -93,5 +104,40 @@ describe('patientsServices unit tests', () => {
 
             await patientsServices.signUp(userSignUp);
         }).rejects.toEqual(errors.duplicatedCpfError());
+    });
+
+    it('#4 should sign in', async () => {
+
+        const fakeToken = 'fake-token';
+
+        const bcryptCompareSync = jest
+            .fn()
+            .mockImplementationOnce(() => true);
+
+        const jwtSign = jest
+            .fn()
+            .mockImplementationOnce(() => fakeToken);
+
+        jest
+            .spyOn(loginsRepositories, "selectByEmail")
+            .mockImplementationOnce((email): any => (
+                Promise.resolve({
+                    rowCount: 1,
+                    rows: [{
+                        id: 1,
+                        name: 'foo',
+                        email: 'foo@bar.com',
+                        password: 'foobar123',
+                        type: 'patient',
+                        createdAt: 'foo'
+                    }]
+                })
+            ));
+
+        (bcrypt.compareSync as jest.Mock) = bcryptCompareSync;
+
+        (jwt.sign as jest.Mock) = jwtSign;
+
+        expect(await patientsServices.signIn(userSignIn)).toBe(fakeToken);
     });
 })
