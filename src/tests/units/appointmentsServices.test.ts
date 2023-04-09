@@ -4,9 +4,9 @@ import { jest } from "@jest/globals";
 
 import errors from "../../errors";
 
-import appointmentsRepositories from "../../repositories/appointmentsRepositories";
-
 import appointmentsServices from "../../services/appointmentsServices";
+
+import appointmentsRepositories from "../../repositories/appointmentsRepositories";
 
 import spyOnPromiseMock from "../mocks/spyOnPromise";
 

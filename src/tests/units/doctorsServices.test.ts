@@ -7,10 +7,11 @@ import { jest } from "@jest/globals";
 
 import errors from "../../errors";
 
+import doctorsServices from '../../services/doctorsServices';
+
 import loginsRepositories from "../../repositories/loginsRepositories";
 import doctorsRepositories from '../../repositories/doctorsRepositories';
 import specialitiesRepositories from '../../repositories/specialitiesRepositories';
-import doctorsServices from '../../services/doctorsServices';
 
 import spyOnPromiseMock from '../mocks/spyOnPromise';
 
