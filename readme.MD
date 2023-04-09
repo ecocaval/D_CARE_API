@@ -1,6 +1,10 @@
+<br>
+
 # <p align = "center">TypeMediCare API</p>
 
 <p align = "center"><img style="width:800px" src="./assets/read-me-pic.png"/></p>
+
+<br>
 
 ## :white_circle: Technologies
 
