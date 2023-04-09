@@ -79,7 +79,9 @@ async function confirm({ appointmentId, doctorId }: ConfirmAndCancelAppointmentT
     if (appointment.doctorId !== +doctorId)
         throw errors.unauthorizedError();
 
-    await appointmentsRepositories.confirm({ appointmentId });
+    const { rowCount: appointmentWasConfirmed } = await appointmentsRepositories.confirm({ appointmentId });
+
+    return (!!appointmentWasConfirmed);
 }
 
 async function cancel({ appointmentId, doctorId }: ConfirmAndCancelAppointmentType) {

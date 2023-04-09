@@ -1,4 +1,4 @@
-import { BookAppointmentType, SelectAndCreateAppointmentType } from "../../@types/appointments";
+import { BookAppointmentType, ConfirmAndCancelAppointmentType, SelectAndCreateAppointmentType } from "../../@types/appointments";
 
 import { jest } from "@jest/globals";
 
@@ -16,7 +16,12 @@ const createAppointment: SelectAndCreateAppointmentType = {
 
 const bookAppointment: BookAppointmentType = {
     appointmentId: '1',
-    patientId: '2'
+    patientId: '1'
+}
+
+const confirmAppointment: ConfirmAndCancelAppointmentType = {
+    appointmentId: '1',
+    doctorId: '1'
 }
 
 describe('appointments unit tests', () => {
@@ -25,7 +30,7 @@ describe('appointments unit tests', () => {
 
         jest
             .spyOn(appointmentsRepositories, "select")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -33,7 +38,7 @@ describe('appointments unit tests', () => {
 
         jest
             .spyOn(appointmentsRepositories, "create")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -46,9 +51,10 @@ describe('appointments unit tests', () => {
     it('#2 should acuse dupplicated appointment in creation when appointment already exists', () => {
 
         expect(async () => {
+
             jest
                 .spyOn(appointmentsRepositories, "select")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
@@ -64,7 +70,7 @@ describe('appointments unit tests', () => {
 
         jest
             .spyOn(appointmentsRepositories, "selectById")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1,
                     rows: [{
@@ -75,7 +81,7 @@ describe('appointments unit tests', () => {
 
         jest
             .spyOn(appointmentsRepositories, "book")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -85,13 +91,13 @@ describe('appointments unit tests', () => {
 
     });
 
-    it('#4 should not book appointment when appointmentId is not found', async () => {
+    it('#4 should not book appointment when appointmentId is not found', () => {
 
         expect(async () => {
-            
+
             jest
                 .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 0,
                         rows: [{}]
@@ -104,13 +110,13 @@ describe('appointments unit tests', () => {
 
     });
 
-    it('#5 should not book appointment when appointment is already booked', async () => {
+    it('#5 should not book appointment when appointment is already booked', () => {
 
         expect(async () => {
-            
+
             jest
                 .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1,
                         rows: [{
@@ -122,6 +128,32 @@ describe('appointments unit tests', () => {
             await appointmentsServices.book(bookAppointment);
 
         }).rejects.toEqual(errors.bookedAppointmentError());
+
+    });
+
+    it('#6 should confirm appointment', async () => {
+
+        jest
+            .spyOn(appointmentsRepositories, "selectById")
+            .mockImplementationOnce((): any => (
+                Promise.resolve({
+                    rowCount: 1,
+                    rows: [{
+                        doctorId: 1,
+                        status: 'booked',
+                    }]
+                })
+            ));
+
+        jest
+            .spyOn(appointmentsRepositories, "confirm")
+            .mockImplementationOnce((): any => (
+                Promise.resolve({
+                    rowCount: 1
+                })
+            ));
+
+        expect(await appointmentsServices.confirm(confirmAppointment)).toBeTruthy();
 
     });
 

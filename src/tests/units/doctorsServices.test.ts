@@ -50,7 +50,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(doctorsRepositories, "selectByCrm")
-            .mockImplementationOnce((cpf): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -58,7 +58,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rows: [{ id: loginId }]
                 })
@@ -66,7 +66,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(specialitiesRepositories, "selectByName")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -74,13 +74,13 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(specialitiesRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve()
             ));
 
         jest
             .spyOn(doctorsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -102,7 +102,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -110,7 +110,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(doctorsRepositories, "selectByCrm")
-            .mockImplementationOnce((cpf): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -118,7 +118,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rows: [{ id: loginId }]
                 })
@@ -126,7 +126,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(specialitiesRepositories, "selectByName")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -134,7 +134,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(doctorsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -149,7 +149,7 @@ describe('doctorsServices unit tests', () => {
         expect(async () => {
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
@@ -164,7 +164,7 @@ describe('doctorsServices unit tests', () => {
         expect(async () => {
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 0
                     })
@@ -172,7 +172,7 @@ describe('doctorsServices unit tests', () => {
 
             jest
                 .spyOn(doctorsRepositories, "selectByCrm")
-                .mockImplementationOnce((cpf): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
@@ -196,7 +196,7 @@ describe('doctorsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1,
                     rows: [{
@@ -223,7 +223,7 @@ describe('doctorsServices unit tests', () => {
 
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 0,
                         rows: []
@@ -245,7 +245,7 @@ describe('doctorsServices unit tests', () => {
 
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1,
                         rows: [{

@@ -40,7 +40,7 @@ describe('patientsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -48,7 +48,7 @@ describe('patientsServices unit tests', () => {
 
         jest
             .spyOn(patientsRepositories, "selectByCpf")
-            .mockImplementationOnce((cpf): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 0
                 })
@@ -56,7 +56,7 @@ describe('patientsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rows: [{ id: loginId }]
                 })
@@ -64,7 +64,7 @@ describe('patientsServices unit tests', () => {
 
         jest
             .spyOn(patientsRepositories, "create")
-            .mockImplementationOnce((params): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
@@ -79,7 +79,7 @@ describe('patientsServices unit tests', () => {
         expect(async () => {
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
@@ -94,7 +94,7 @@ describe('patientsServices unit tests', () => {
         expect(async () => {
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 0
                     })
@@ -102,7 +102,7 @@ describe('patientsServices unit tests', () => {
 
             jest
                 .spyOn(patientsRepositories, "selectByCpf")
-                .mockImplementationOnce((cpf): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
@@ -126,7 +126,7 @@ describe('patientsServices unit tests', () => {
 
         jest
             .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((email): any => (
+            .mockImplementationOnce((): any => (
                 Promise.resolve({
                     rowCount: 1,
                     rows: [{
@@ -153,7 +153,7 @@ describe('patientsServices unit tests', () => {
             
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 0,
                         rows: []
@@ -175,7 +175,7 @@ describe('patientsServices unit tests', () => {
 
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((email): any => (
+                .mockImplementationOnce((): any => (
                     Promise.resolve({
                         rowCount: 1,
                         rows: [{
