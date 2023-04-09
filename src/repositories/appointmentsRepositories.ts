@@ -71,7 +71,7 @@ async function selectDoctorAppointments({ doctorId, status }: SelectDoctorAppoin
     `, [doctorId, status]) as AppointmentsPromiseType;
 }
 
-async function select(    { date, hour, doctorId }: SelectAndCreateAppointmentType) {
+async function select({ date, hour, doctorId }: SelectAndCreateAppointmentType) {
 
     return dataBase.query(`
         SELECT *
@@ -80,7 +80,7 @@ async function select(    { date, hour, doctorId }: SelectAndCreateAppointmentTy
     `, [date, hour, doctorId]) as AppointmentsPromiseType;
 }
 
-async function selectById(    { appointmentId }: SelectAppointmentByIdType) {
+async function selectById({ appointmentId }: SelectAppointmentByIdType) {
 
     return dataBase.query(`
         SELECT *
@@ -89,7 +89,7 @@ async function selectById(    { appointmentId }: SelectAppointmentByIdType) {
     `, [appointmentId]) as AppointmentsPromiseType;
 }
 
-async function create(    { date, hour, doctorId }: SelectAndCreateAppointmentType) {
+async function create({ date, hour, doctorId }: SelectAndCreateAppointmentType) {
 
     return dataBase.query(`
         INSERT INTO appointments (date, hour, "doctorId")
@@ -97,7 +97,7 @@ async function create(    { date, hour, doctorId }: SelectAndCreateAppointmentTy
     `, [date, hour, doctorId]);
 }
 
-async function book(    { patientId, appointmentId }: BookAppointmentType) {
+async function book({ patientId, appointmentId }: BookAppointmentType) {
 
     return dataBase.query(`
         UPDATE appointments
@@ -106,7 +106,7 @@ async function book(    { patientId, appointmentId }: BookAppointmentType) {
 `, [patientId, appointmentId]);
 }
 
-async function confirm(    { appointmentId }: SelectAppointmentByIdType) {
+async function confirm({ appointmentId }: SelectAppointmentByIdType) {
 
     return dataBase.query(`
         UPDATE appointments
@@ -115,8 +115,8 @@ async function confirm(    { appointmentId }: SelectAppointmentByIdType) {
 `, [appointmentId]);
 }
 
-async function cancel(    { appointmentId }: SelectAppointmentByIdType) {
-    
+async function cancel({ appointmentId }: SelectAppointmentByIdType) {
+
     return dataBase.query(`
         UPDATE appointments
         SET status = 'canceled'

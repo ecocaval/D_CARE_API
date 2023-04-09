@@ -37,20 +37,24 @@ async function create({ date, hour, doctorId }: SelectAndCreateAppointmentType) 
     const { rowCount: conflictInAppointment } = await appointmentsRepositories.select({ date, hour, doctorId });
     if (!!conflictInAppointment) throw errors.duplicatedAppointmentError();
 
-    await appointmentsRepositories.create({ date, hour, doctorId });
+    const { rowCount: appointmentWasCreated } = await appointmentsRepositories.create({ date, hour, doctorId });
+
+    return (!!appointmentWasCreated);
 }
 
 async function book({ appointmentId, patientId }: BookAppointmentType) {
 
     const {
         rows: [appointment],
-        rowCount
+        rowCount: appointmentExists
     } = await appointmentsRepositories.selectById({ appointmentId });
 
-    if (!rowCount) throw errors.appointmentNotFoundError();
+    if (!appointmentExists) throw errors.appointmentNotFoundError();
     if (!!appointment.patientId) throw errors.bookedAppointmentError();
 
-    await appointmentsRepositories.book({ patientId, appointmentId });
+    const { rowCount: appointmentWasBooked } = await appointmentsRepositories.book({ patientId, appointmentId });
+
+    return (!!appointmentWasBooked);
 }
 
 async function confirm({ appointmentId, doctorId }: ConfirmAndCancelAppointmentType) {

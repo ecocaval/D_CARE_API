@@ -39,8 +39,6 @@ function threatErrorMiddleware(err: Error, req: Request, res: Response, next: Ne
         });
     }
 
-    console.log(err)
-
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
 }
 
