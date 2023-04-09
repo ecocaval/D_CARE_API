@@ -1,4 +1,4 @@
-import { BookAppointmentType, ConfirmAndCancelAppointmentType, SelectAndCreateAppointmentType } from "../../@types/appointments";
+import { BookAppointmentType, ConfirmAndCancelAppointmentType, SelectAndCreateAppointmentType } from "../../protocols/appointments";
 
 import { jest } from "@jest/globals";
 

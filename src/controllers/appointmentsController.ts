@@ -3,7 +3,7 @@ import {
     SelectAllAppointmentsType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
-} from "../@types/appointments.js";
+} from "../protocols/appointments.js";
 
 import {
     NextFunction,

@@ -1,4 +1,4 @@
-import { SignInType, SignUpDefault, SignUpDoctorType, SignUpPatientType } from "../@types/logins.js";
+import { SignInType, SignUpDefault, SignUpDoctorType, SignUpPatientType } from "../protocols/logins.js";
 
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";

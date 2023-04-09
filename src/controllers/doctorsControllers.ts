@@ -1,4 +1,4 @@
-import { SelectAllDoctorsType } from "../@types/doctors.js";
+import { SelectAllDoctorsType } from "../protocols/doctors.js";
 
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";

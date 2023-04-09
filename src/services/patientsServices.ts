@@ -1,4 +1,4 @@
-import { SignInType, SignUpPatientType } from '../@types/logins.js';
+import { SignInType, SignUpPatientType } from '../protocols/logins.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

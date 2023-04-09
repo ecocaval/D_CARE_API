@@ -1,4 +1,4 @@
-import { SignInType, SignUpDoctorType } from '../../@types/logins';
+import { SignInType, SignUpDoctorType } from '../../protocols/logins';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

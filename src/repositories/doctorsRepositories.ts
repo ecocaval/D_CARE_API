@@ -1,4 +1,4 @@
-import { CreateDoctorType, DoctorsPromiseType, DoctorsWithLoginPromiseType, SelectAllDoctorsType } from "../@types/doctors";
+import { CreateDoctorType, DoctorsPromiseType, DoctorsWithLoginPromiseType, SelectAllDoctorsType } from "../protocols/doctors";
 
 import dataBase from "../configs/dataBase.js";
 

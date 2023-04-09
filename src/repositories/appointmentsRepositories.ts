@@ -6,7 +6,7 @@ import {
     SelectAndCreateAppointmentType,
     SelectDoctorAppointmentsType,
     SelectPatientAppointmentsType
-} from "../@types/appointments.js";
+} from "../protocols/appointments.js";
 
 import dataBase from "../configs/dataBase.js";
 

@@ -1,4 +1,4 @@
-import { CreateLoginType, LoginsPromiseType } from "../@types/logins.js";
+import { CreateLoginType, LoginsPromiseType } from "../protocols/logins.js";
 
 import dataBase from "../configs/dataBase.js";
 

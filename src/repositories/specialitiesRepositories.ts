@@ -1,4 +1,4 @@
-import { SpecialitiesPromiseType } from "../@types/specialities.js";
+import { SpecialitiesPromiseType } from "../protocols/specialities.js";
 
 import dataBase from "../configs/dataBase.js";
 
