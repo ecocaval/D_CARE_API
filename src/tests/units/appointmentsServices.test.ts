@@ -8,6 +8,8 @@ import appointmentsRepositories from "../../repositories/appointmentsRepositorie
 
 import appointmentsServices from "../../services/appointmentsServices";
 
+import spyOnPromiseMock from "../mocks/spyOnPromise";
+
 const createAppointment: SelectAndCreateAppointmentType = {
     date: "2023-04-02",
     hour: "13:20:00Z",
@@ -28,21 +30,9 @@ describe('appointments unit tests', () => {
 
     it('#1 should create appointment', async () => {
 
-        jest
-            .spyOn(appointmentsRepositories, "select")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 0
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "select", { rowCount: 0 });
 
-        jest
-            .spyOn(appointmentsRepositories, "create")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "create", { rowCount: 1 });
 
         expect(await appointmentsServices.create(createAppointment)).toBeTruthy();
     });
@@ -51,13 +41,7 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "select")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "select", { rowCount: 1 });
 
             await appointmentsServices.create(createAppointment);
 
@@ -66,24 +50,12 @@ describe('appointments unit tests', () => {
 
     it('#3 should book appointment', async () => {
 
-        jest
-            .spyOn(appointmentsRepositories, "selectById")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1,
-                    rows: [{
-                        patientId: null
-                    }]
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "selectById", {
+            rowCount: 1,
+            rows: [{ patientId: null }]
+        });
 
-        jest
-            .spyOn(appointmentsRepositories, "book")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "book", { rowCount: 1 });
 
         expect(await appointmentsServices.book(bookAppointment)).toBeTruthy();
     });
@@ -92,14 +64,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 0,
-                        rows: [{}]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 0,
+                rows: [{}]
+            });
 
             await appointmentsServices.book(bookAppointment);
 
@@ -110,16 +78,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            patientId: '1'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{ patientId: '1' }]
+            });
 
             await appointmentsServices.book(bookAppointment);
 
@@ -128,25 +90,15 @@ describe('appointments unit tests', () => {
 
     it('#6 should confirm appointment', async () => {
 
-        jest
-            .spyOn(appointmentsRepositories, "selectById")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1,
-                    rows: [{
-                        doctorId: 1,
-                        status: 'booked',
-                    }]
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "selectById", {
+            rowCount: 1,
+            rows: [{
+                doctorId: 1,
+                status: 'booked',
+            }]
+        });
 
-        jest
-            .spyOn(appointmentsRepositories, "confirm")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "confirm", { rowCount: 1 });
 
         expect(await appointmentsServices.confirm(confirmAppointment)).toBeTruthy();
     });
@@ -155,14 +107,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 0,
-                        rows: [{}]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 0,
+                rows: [{}]
+            });
 
             await appointmentsServices.confirm(confirmAppointment);
 
@@ -173,16 +121,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            status: 'confirmed'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{ status: 'confirmed' }]
+            });
 
             await appointmentsServices.confirm(confirmAppointment);
 
@@ -193,16 +135,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            status: 'canceled'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{ status: 'canceled' }]
+            });
 
             await appointmentsServices.confirm(confirmAppointment);
 
@@ -213,16 +149,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            status: 'free'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{ status: 'free' }]
+            });
 
             await appointmentsServices.confirm(confirmAppointment);
 
@@ -232,17 +162,14 @@ describe('appointments unit tests', () => {
     it('#10 should not confirm appointment if you are not the appointments doctor', async () => {
 
         expect(async () => {
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            doctorId: 2, //! all the others doctorIds are set to 1
-                            status: 'booked'
-                        }]
-                    })
-                ));
+
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{
+                    doctorId: 2, //! all the others doctorIds are set to 1
+                    status: 'booked'
+                }]
+            });
 
             await appointmentsServices.confirm(confirmAppointment);
 
@@ -251,25 +178,15 @@ describe('appointments unit tests', () => {
 
     it('#11 should cancel appointment', async () => {
 
-        jest
-            .spyOn(appointmentsRepositories, "selectById")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1,
-                    rows: [{
-                        doctorId: 1,
-                        status: 'booked',
-                    }]
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "selectById", {
+            rowCount: 1,
+            rows: [{
+                doctorId: 1,
+                status: 'booked',
+            }]
+        });
 
-        jest
-            .spyOn(appointmentsRepositories, "cancel")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1
-                })
-            ));
+        spyOnPromiseMock(appointmentsRepositories, "cancel", { rowCount: 1 });
 
         expect(await appointmentsServices.cancel(confirmAppointment)).toBeTruthy();
     });
@@ -278,14 +195,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 0,
-                        rows: [{}]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 0,
+                rows: [{}]
+            });
 
             await appointmentsServices.cancel(confirmAppointment);
 
@@ -296,16 +209,10 @@ describe('appointments unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            status: 'canceled'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{ status: 'canceled' }]
+            });
 
             await appointmentsServices.cancel(confirmAppointment);
 
@@ -315,17 +222,14 @@ describe('appointments unit tests', () => {
     it('#13 should not cancel appointment if you are not the appointments doctor', async () => {
 
         expect(async () => {
-            jest
-                .spyOn(appointmentsRepositories, "selectById")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            doctorId: 2, //! all the others doctorIds are set to 1
-                            status: 'booked'
-                        }]
-                    })
-                ));
+
+            spyOnPromiseMock(appointmentsRepositories, "selectById", {
+                rowCount: 1,
+                rows: [{
+                    doctorId: 2, //! all the others doctorIds are set to 1
+                    status: 'booked'
+                }]
+            });
 
             await appointmentsServices.cancel(confirmAppointment);
 
