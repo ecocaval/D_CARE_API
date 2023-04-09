@@ -10,7 +10,11 @@ import errors from "../errors/index.js";
 
 async function signIn({ email, password, type }: SignInType) {
 
-    const { rowCount: patientExists, rows: [patient] } = await loginsRepositories.selectByEmail(email);
+    const {
+        rowCount: patientExists,
+        rows: [patient]
+    } = await loginsRepositories.selectByEmail(email);
+    
     if (!patientExists || (type !== patient.type)) throw errors.unauthorizedError();
 
     const passwordIsCorrect = bcrypt.compareSync(password, patient.password);

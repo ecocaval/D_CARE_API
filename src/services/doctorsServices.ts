@@ -19,7 +19,11 @@ async function selectAll({ name, specialityName }: SelectAllDoctorsType) {
 
 async function signIn({ email, password, type }: SignInType) {
 
-    const { rowCount: doctorExists, rows: [doctor] } = await loginsRepositories.selectByEmail(email);
+    const {
+        rowCount: doctorExists,
+        rows: [doctor]
+    } = await loginsRepositories.selectByEmail(email);
+
     if (!doctorExists || (type !== doctor.type)) throw errors.unauthorizedError();
 
     const passwordIsCorrect = bcrypt.compareSync(password, doctor.password);
@@ -34,7 +38,7 @@ async function signIn({ email, password, type }: SignInType) {
     return token;
 }
 
-async function signUp({ name, email, password, type, specialityName, crm, crmOptionals } : SignUpDoctorType) {
+async function signUp({ name, email, password, type, specialityName, crm, crmOptionals }: SignUpDoctorType) {
 
     const { rowCount: emailInUse } = await loginsRepositories.selectByEmail(email);
     if (!!emailInUse) throw errors.duplicatedEmailError();
@@ -48,21 +52,15 @@ async function signUp({ name, email, password, type, specialityName, crm, crmOpt
 
     const { rowCount: specialityExists } = await specialitiesRepositories.selectByName(specialityName);
 
-    if (!!specialityExists) {
-
-        await doctorsRepositories.create({
-            specialityName, crm, crmOptionals, loginId
-        });
-
-    } else {
-        
+    if (!specialityExists) {
         await specialitiesRepositories.create(specialityName);
-
-        await doctorsRepositories.create({
-            specialityName, crm, crmOptionals, loginId
-        });
     }
-    return;
+
+    const { rowCount: userWasCreated } = await doctorsRepositories.create({
+        specialityName, crm, crmOptionals, loginId
+    });
+
+    return (!!userWasCreated);
 }
 
 export default {

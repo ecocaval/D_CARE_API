@@ -1,4 +1,4 @@
-import { SignInType, SignUpPatientType } from "../../@types/logins";
+import { SignInType, SignUpDoctorType } from '../../@types/logins';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -7,28 +7,30 @@ import { jest } from "@jest/globals";
 
 import errors from "../../errors";
 
-import patientsServices from "../../services/patientsServices";
-
 import loginsRepositories from "../../repositories/loginsRepositories";
-import patientsRepositories from "../../repositories/patientsRepositories";
+import doctorsRepositories from '../../repositories/doctorsRepositories';
+import specialitiesRepositories from '../../repositories/specialitiesRepositories';
+import doctorsServices from '../../services/doctorsServices';
 
-const userSignUp: SignUpPatientType = {
+const userSignUp: SignUpDoctorType = {
     name: 'foo',
     email: 'foo@bar.com',
     password: 'foobar123',
-    type: 'patient',
-    cpf: '13113113113'
+    type: 'doctor',
+    specialityName: 'foobar',
+    crm: 'foobar',
+    crmOptionals: null,
 };
 
 const userSignIn: SignInType = {
     email: 'foo@bar.com',
     password: 'foobar123',
-    type: 'patient'
+    type: 'doctor'
 };
 
-describe('patientsServices unit tests', () => {
+describe('doctorsServices unit tests', () => {
 
-    it('#1 should sign up a patient', async () => {
+    it('#1 should sign up a doctor with new speciality', async () => {
 
         const loginId = Math.ceil(10 * Math.random());
 
@@ -47,7 +49,7 @@ describe('patientsServices unit tests', () => {
             ));
 
         jest
-            .spyOn(patientsRepositories, "selectByCpf")
+            .spyOn(doctorsRepositories, "selectByCrm")
             .mockImplementationOnce((cpf): any => (
                 Promise.resolve({
                     rowCount: 0
@@ -63,18 +65,86 @@ describe('patientsServices unit tests', () => {
             ));
 
         jest
-            .spyOn(patientsRepositories, "create")
+            .spyOn(specialitiesRepositories, "selectByName")
+            .mockImplementationOnce((params): any => (
+                Promise.resolve({
+                    rowCount: 0
+                })
+            ));
+
+        jest
+            .spyOn(specialitiesRepositories, "create")
+            .mockImplementationOnce((params): any => (
+                Promise.resolve()
+            ));
+
+        jest
+            .spyOn(doctorsRepositories, "create")
             .mockImplementationOnce((params): any => (
                 Promise.resolve({
                     rowCount: 1
                 })
             ));
 
-        expect(await patientsServices.signUp(userSignUp))
+        expect(await doctorsServices.signUp(userSignUp))
             .toBeTruthy();
     });
 
-    it('#2 should acuse double email error in patients sign up', () => {
+    it('#2 should sign up a doctor without new speciality', async () => {
+
+        const loginId = Math.ceil(10 * Math.random());
+
+        const bcryptHashSync = jest
+            .fn()
+            .mockImplementationOnce(() => 'foobar123-hash');
+
+        (bcrypt.hashSync as jest.Mock) = bcryptHashSync;
+
+        jest
+            .spyOn(loginsRepositories, "selectByEmail")
+            .mockImplementationOnce((email): any => (
+                Promise.resolve({
+                    rowCount: 0
+                })
+            ));
+
+        jest
+            .spyOn(doctorsRepositories, "selectByCrm")
+            .mockImplementationOnce((cpf): any => (
+                Promise.resolve({
+                    rowCount: 0
+                })
+            ));
+
+        jest
+            .spyOn(loginsRepositories, "create")
+            .mockImplementationOnce((params): any => (
+                Promise.resolve({
+                    rows: [{ id: loginId }]
+                })
+            ));
+
+        jest
+            .spyOn(specialitiesRepositories, "selectByName")
+            .mockImplementationOnce((params): any => (
+                Promise.resolve({
+                    rowCount: 1
+                })
+            ));
+
+        jest
+            .spyOn(doctorsRepositories, "create")
+            .mockImplementationOnce((params): any => (
+                Promise.resolve({
+                    rowCount: 1
+                })
+            ));
+
+        expect(await doctorsServices.signUp(userSignUp))
+            .toBeTruthy();
+    });
+
+    it('#3 should acuse double email error in doctors sign up', () => {
 
         expect(async () => {
             jest
@@ -85,11 +155,11 @@ describe('patientsServices unit tests', () => {
                     })
                 ));
 
-            await patientsServices.signUp(userSignUp);
+            await doctorsServices.signUp(userSignUp);
         }).rejects.toEqual(errors.duplicatedEmailError());
     });
 
-    it('#3 should acuse double cpf error in patients sign up', () => {
+    it('#4 should acuse double crm error in doctors sign up', () => {
 
         expect(async () => {
             jest
@@ -101,18 +171,18 @@ describe('patientsServices unit tests', () => {
                 ));
 
             jest
-                .spyOn(patientsRepositories, "selectByCpf")
+                .spyOn(doctorsRepositories, "selectByCrm")
                 .mockImplementationOnce((cpf): any => (
                     Promise.resolve({
                         rowCount: 1
                     })
                 ));
 
-            await patientsServices.signUp(userSignUp);
-        }).rejects.toEqual(errors.duplicatedCpfError());
+            await doctorsServices.signUp(userSignUp);
+        }).rejects.toEqual(errors.duplicatedCrmError());
     });
 
-    it('#4 should sign in as a patient', async () => {
+    it('#5 should sign in as a doctor', async () => {
 
         const fakeToken = 'fake-token';
 
@@ -134,7 +204,7 @@ describe('patientsServices unit tests', () => {
                         name: 'foo',
                         email: 'foo@bar.com',
                         password: 'foobar123',
-                        type: 'patient',
+                        type: 'doctor',
                         createdAt: 'foo'
                     }]
                 })
@@ -144,13 +214,13 @@ describe('patientsServices unit tests', () => {
 
         (jwt.sign as jest.Mock) = jwtSign;
 
-        expect(await patientsServices.signIn(userSignIn)).toBe(fakeToken);
+        expect(await doctorsServices.signIn(userSignIn)).toBe(fakeToken);
     });
 
-    it('#5 should acuse unauthorized error in sign in when patients email is not found', () => {
+    it('#6 should acuse unauthorized error in sign in when doctors email is not found', () => {
 
         expect(async () => {
-            
+
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
                 .mockImplementationOnce((email): any => (
@@ -160,12 +230,12 @@ describe('patientsServices unit tests', () => {
                     })
                 ));
 
-            await patientsServices.signIn(userSignIn);
+            await doctorsServices.signIn(userSignIn);
 
         }).rejects.toEqual(errors.unauthorizedError());
     });
 
-    it('#6 should acuse unauthorized error in sign in when patients password is not correct', () => {
+    it('#7 should acuse unauthorized error in sign in when doctors password is not correct', () => {
 
         expect(async () => {
 
@@ -183,7 +253,7 @@ describe('patientsServices unit tests', () => {
                             name: 'foo',
                             email: 'foo@bar.com',
                             password: 'foobar123',
-                            type: 'patient',
+                            type: 'doctor',
                             createdAt: 'foo'
                         }]
                     })
@@ -191,8 +261,9 @@ describe('patientsServices unit tests', () => {
 
             (bcrypt.compareSync as jest.Mock) = bcryptCompareSync;
 
-            await patientsServices.signIn(userSignIn);
+            await doctorsServices.signIn(userSignIn);
 
         }).rejects.toEqual(errors.unauthorizedError());
     });
+   
 });
