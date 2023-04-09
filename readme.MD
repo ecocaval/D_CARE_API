@@ -31,6 +31,9 @@ npm install
 
 If you want to use and test the api you will have to recriate the database considering the tables that are showen in the database modeling, feel free to add improvements given the basis. 
 
+<details>
+<summary>Tables Creation SQL source code</summary>
+
 ```sql
 CREATE TABLE logins (
 	"id" serial NOT NULL,
@@ -117,6 +120,9 @@ FOREIGN KEY ("patientId")
 REFERENCES "patients"("id") ON DELETE CASCADE;
 ```
 
+</details>
+
+<br>
 
 To connect to the database create a .env file and populate it given the .env.example file:
 
