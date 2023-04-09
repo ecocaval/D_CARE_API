@@ -12,6 +12,8 @@ import patientsServices from "../../services/patientsServices";
 import loginsRepositories from "../../repositories/loginsRepositories";
 import patientsRepositories from "../../repositories/patientsRepositories";
 
+import spyOnPromiseMock from "../mocks/spyOnPromise";
+
 const userSignUp: SignUpPatientType = {
     name: 'foo',
     email: 'foo@bar.com',
@@ -38,37 +40,13 @@ describe('patientsServices unit tests', () => {
 
         (bcrypt.hashSync as jest.Mock) = bcryptHashSync;
 
-        jest
-            .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 0
-                })
-            ));
+        spyOnPromiseMock(loginsRepositories, "selectByEmail", { rowCount: 0 });
 
-        jest
-            .spyOn(patientsRepositories, "selectByCpf")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 0
-                })
-            ));
+        spyOnPromiseMock(patientsRepositories, "selectByCpf", { rowCount: 0 });
 
-        jest
-            .spyOn(loginsRepositories, "create")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rows: [{ id: loginId }]
-                })
-            ));
+        spyOnPromiseMock(loginsRepositories, "create", { rows: [{ id: loginId }] });
 
-        jest
-            .spyOn(patientsRepositories, "create")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1
-                })
-            ));
+        spyOnPromiseMock(patientsRepositories, "create", { rowCount: 1 });
 
         expect(await patientsServices.signUp(userSignUp)).toBeTruthy();
     });
@@ -76,13 +54,8 @@ describe('patientsServices unit tests', () => {
     it('#2 should acuse double email error in patients sign up', () => {
 
         expect(async () => {
-            jest
-                .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1
-                    })
-                ));
+
+            spyOnPromiseMock(loginsRepositories, "selectByEmail", { rowCount: 1 });
 
             await patientsServices.signUp(userSignUp);
 
@@ -92,24 +65,13 @@ describe('patientsServices unit tests', () => {
     it('#3 should acuse double cpf error in patients sign up', () => {
 
         expect(async () => {
-            jest
-                .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 0
-                    })
-                ));
 
-            jest
-                .spyOn(patientsRepositories, "selectByCpf")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1
-                    })
-                ));
+            spyOnPromiseMock(loginsRepositories, "selectByEmail", { rowCount: 0 });
+
+            spyOnPromiseMock(patientsRepositories, "selectByCpf", { rowCount: 1 });
 
             await patientsServices.signUp(userSignUp);
-            
+
         }).rejects.toEqual(errors.duplicatedCpfError());
     });
 
@@ -125,21 +87,17 @@ describe('patientsServices unit tests', () => {
             .fn()
             .mockImplementationOnce(() => fakeToken);
 
-        jest
-            .spyOn(loginsRepositories, "selectByEmail")
-            .mockImplementationOnce((): any => (
-                Promise.resolve({
-                    rowCount: 1,
-                    rows: [{
-                        id: 1,
-                        name: 'foo',
-                        email: 'foo@bar.com',
-                        password: 'foobar123',
-                        type: 'patient',
-                        createdAt: 'foo'
-                    }]
-                })
-            ));
+        spyOnPromiseMock(loginsRepositories, "selectByEmail", {
+            rowCount: 1,
+            rows: [{
+                id: 1,
+                name: 'foo',
+                email: 'foo@bar.com',
+                password: 'foobar123',
+                type: 'patient',
+                createdAt: 'foo'
+            }]
+        });
 
         (bcrypt.compareSync as jest.Mock) = bcryptCompareSync;
 
@@ -152,14 +110,10 @@ describe('patientsServices unit tests', () => {
 
         expect(async () => {
 
-            jest
-                .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 0,
-                        rows: []
-                    })
-                ));
+            spyOnPromiseMock(loginsRepositories, "selectByEmail", {
+                rowCount: 0,
+                rows: []
+            });
 
             await patientsServices.signIn(userSignIn);
 
@@ -174,21 +128,17 @@ describe('patientsServices unit tests', () => {
                 .fn()
                 .mockImplementationOnce(() => false);
 
-            jest
-                .spyOn(loginsRepositories, "selectByEmail")
-                .mockImplementationOnce((): any => (
-                    Promise.resolve({
-                        rowCount: 1,
-                        rows: [{
-                            id: 1,
-                            name: 'foo',
-                            email: 'foo@bar.com',
-                            password: 'foobar123',
-                            type: 'patient',
-                            createdAt: 'foo'
-                        }]
-                    })
-                ));
+            spyOnPromiseMock(loginsRepositories, "selectByEmail", {
+                rowCount: 1,
+                rows: [{
+                    id: 1,
+                    name: 'foo',
+                    email: 'foo@bar.com',
+                    password: 'foobar123',
+                    type: 'patient',
+                    createdAt: 'foo'
+                }]
+            });
 
             (bcrypt.compareSync as jest.Mock) = bcryptCompareSync;
 
