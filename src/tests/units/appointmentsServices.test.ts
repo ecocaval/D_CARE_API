@@ -157,4 +157,104 @@ describe('appointments unit tests', () => {
 
     });
 
+    it('#7 should not confirm appointment if appointment doesnt exist', async () => {
+
+        expect(async () => {
+            jest
+                .spyOn(appointmentsRepositories, "selectById")
+                .mockImplementationOnce((): any => (
+                    Promise.resolve({
+                        rowCount: 0,
+                        rows: [{}]
+                    })
+                ));
+
+            await appointmentsServices.confirm(confirmAppointment);
+
+        }).rejects.toEqual(errors.appointmentNotFoundError());
+
+    });
+
+    it('#8 should not confirm appointment if appointment is already confirmed', async () => {
+
+        expect(async () => {
+            jest
+                .spyOn(appointmentsRepositories, "selectById")
+                .mockImplementationOnce((): any => (
+                    Promise.resolve({
+                        rowCount: 1,
+                        rows: [{
+                            status: 'confirmed'
+                        }]
+                    })
+                ));
+
+            await appointmentsServices.confirm(confirmAppointment);
+
+        }).rejects.toEqual(errors.confirmedAppointmentError());
+
+    });
+
+    it('#9 should not confirm appointment if appointment is canceled', async () => {
+
+        expect(async () => {
+            jest
+                .spyOn(appointmentsRepositories, "selectById")
+                .mockImplementationOnce((): any => (
+                    Promise.resolve({
+                        rowCount: 1,
+                        rows: [{
+                            status: 'canceled'
+                        }]
+                    })
+                ));
+
+            await appointmentsServices.confirm(confirmAppointment);
+
+        }).rejects.toEqual(errors.canceledAppointmentError());
+
+    });
+
+    it('#10 should not confirm appointment if appointment is not booked', async () => {
+
+        expect(async () => {
+            jest
+                .spyOn(appointmentsRepositories, "selectById")
+                .mockImplementationOnce((): any => (
+                    Promise.resolve({
+                        rowCount: 1,
+                        rows: [{
+                            status: 'free'
+                        }]
+                    })
+                ));
+
+            await appointmentsServices.confirm(confirmAppointment);
+
+        }).rejects.toEqual(errors.freeAppointmentError());
+
+    });
+
+    it('#10 should not confirm appointment if you are not the appointments doctor', async () => {
+
+        expect(async () => {
+            jest
+                .spyOn(appointmentsRepositories, "selectById")
+                .mockImplementationOnce((): any => (
+                    Promise.resolve({
+                        rowCount: 1,
+                        rows: [{
+                            doctorId: 2, //! all the others doctorIds are set to 1
+                            status: 'booked'
+                        }]
+                    })
+                ));
+
+            await appointmentsServices.confirm(confirmAppointment);
+
+        }).rejects.toEqual(errors.unauthorizedError());
+
+    });
+
+
 });
