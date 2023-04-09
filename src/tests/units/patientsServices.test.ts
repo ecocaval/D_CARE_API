@@ -70,8 +70,7 @@ describe('patientsServices unit tests', () => {
                 })
             ));
 
-        expect(await patientsServices.signUp(userSignUp))
-            .toBeTruthy();
+        expect(await patientsServices.signUp(userSignUp)).toBeTruthy();
     });
 
     it('#2 should acuse double email error in patients sign up', () => {
@@ -86,6 +85,7 @@ describe('patientsServices unit tests', () => {
                 ));
 
             await patientsServices.signUp(userSignUp);
+
         }).rejects.toEqual(errors.duplicatedEmailError());
     });
 
@@ -109,6 +109,7 @@ describe('patientsServices unit tests', () => {
                 ));
 
             await patientsServices.signUp(userSignUp);
+            
         }).rejects.toEqual(errors.duplicatedCpfError());
     });
 
@@ -150,7 +151,7 @@ describe('patientsServices unit tests', () => {
     it('#5 should acuse unauthorized error in sign in when patients email is not found', () => {
 
         expect(async () => {
-            
+
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
                 .mockImplementationOnce((): any => (

@@ -86,8 +86,7 @@ describe('doctorsServices unit tests', () => {
                 })
             ));
 
-        expect(await doctorsServices.signUp(userSignUp))
-            .toBeTruthy();
+        expect(await doctorsServices.signUp(userSignUp)).toBeTruthy();
     });
 
     it('#2 should sign up a doctor without new speciality', async () => {
@@ -140,13 +139,13 @@ describe('doctorsServices unit tests', () => {
                 })
             ));
 
-        expect(await doctorsServices.signUp(userSignUp))
-            .toBeTruthy();
+        expect(await doctorsServices.signUp(userSignUp)).toBeTruthy();
     });
 
     it('#3 should acuse double email error in doctors sign up', () => {
 
         expect(async () => {
+
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
                 .mockImplementationOnce((): any => (
@@ -156,12 +155,14 @@ describe('doctorsServices unit tests', () => {
                 ));
 
             await doctorsServices.signUp(userSignUp);
+
         }).rejects.toEqual(errors.duplicatedEmailError());
     });
 
     it('#4 should acuse double crm error in doctors sign up', () => {
 
         expect(async () => {
+
             jest
                 .spyOn(loginsRepositories, "selectByEmail")
                 .mockImplementationOnce((): any => (
@@ -179,6 +180,7 @@ describe('doctorsServices unit tests', () => {
                 ));
 
             await doctorsServices.signUp(userSignUp);
+            
         }).rejects.toEqual(errors.duplicatedCrmError());
     });
 
@@ -265,5 +267,5 @@ describe('doctorsServices unit tests', () => {
 
         }).rejects.toEqual(errors.unauthorizedError());
     });
-   
+
 });
